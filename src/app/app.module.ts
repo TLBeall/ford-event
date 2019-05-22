@@ -12,15 +12,21 @@ import {
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { Homepage1Component } from './homepage1/homepage1.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import * as moment from 'moment';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AdminComponent } from './admin/admin.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    Homepage1Component
+    PageNotFoundComponent,
+    AdminComponent,
+    HomepageComponent,
+    SubmissionForm1Component
   ],
   imports: [
     BrowserModule,

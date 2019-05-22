@@ -1,0 +1,46 @@
+@import '../../styleTheme.scss'; 
+
+.fullWidth{
+    width:100%;
+}
+
+
+.btnContainer{
+    text-align: center;
+    div{
+        margin: 0 auto; 
+        display: inline-block;
+        border-radius: 4px;
+    }
+
+    #submitBtn{
+        font-size: 18pt;
+    }
+}
+
+
+
+.ModalCard{
+    position: relative;
+    top: 25%;
+    z-index: 140;
+    .bannerDiv{
+        text-align: center;
+        i.bannerIcon{
+            font-size: 1000%;
+            color: $color-warn;
+        }
+    }
+    .contentDiv{
+        text-align: center;
+        p.contentMsg{
+            font-size: 18pt;
+        }
+    }
+    .cancelDiv{
+        text-align: right;
+        i{
+            opacity: 0.75;
+        }
+    }
+}

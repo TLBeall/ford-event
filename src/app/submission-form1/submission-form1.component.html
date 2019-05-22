@@ -59,8 +59,8 @@
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>State *</mat-label>
             <mat-select type="select" formControlName="state">
-              <mat-option *ngFor="let state of states" [value]="state">
-                {{state}}
+              <mat-option *ngFor="let state of stateList.states" [value]="state">
+                {{state.name}}
               </mat-option>
             </mat-select>
             <mat-error>Please Choose a State</mat-error>
@@ -69,7 +69,7 @@
         <div class="col-md-4">
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>Zipcode *</mat-label>
-            <input matInput type="number" formControlName="zipcode">
+            <input matInput type="text" formControlName="zipcode">
             <mat-error>Please Enter a Valid Zipcode</mat-error>
           </mat-form-field>
         </div>
@@ -104,12 +104,12 @@
       <div class="row justify-content-center">
         <div class="col-md-7 text-center pageTextBlock">
           <br>
-          <h6>Please send me information on the following Ford vehicle(s). You may select up to three.</h6>
+          <h6>Please send me information on the following Ford vehicle(s). You may select up to two.</h6>
           <br>
           <mat-form-field style="width: 80%;" appearance="outline">
             <mat-label>Cars</mat-label>
             <mat-select formControlName="cars" multiple>
-              <mat-option *ngFor="let car of carList" [value]="car">{{car}}</mat-option>
+              <mat-option *ngFor="let car of carList.list" [value]="car">{{car.name}}</mat-option>
             </mat-select>
             <mat-error>{{carCountMessage}}</mat-error>
           </mat-form-field>
