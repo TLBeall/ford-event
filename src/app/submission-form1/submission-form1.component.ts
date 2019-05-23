@@ -25,7 +25,7 @@ export class SubmissionForm1Component implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    var currentDate = new Date();
+    let currentDate = new Date();
     this.carList = new CarList();
     this.stateList = new StateList();
 
@@ -46,7 +46,7 @@ export class SubmissionForm1Component implements OnInit {
 
     this.eventData = new EventSubmission();
     this.eventData.eventLocation = 'Baltimore';
-    this.eventData.eventCode = '320475-123';
+    this.eventData.eventCode = '320475123';
     this.eventData.vendorID = '12345';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
@@ -90,9 +90,9 @@ export class SubmissionForm1Component implements OnInit {
   }
 
   // testPhone(value){
-  //   var phoneString = value.toString();
-  //   var regex = '[0-9]+';
-  //   var match = phoneString.match(regex);
+  //   let phoneString = value.toString();
+  //   let regex = '[0-9]+';
+  //   let match = phoneString.match(regex);
   //   if (match.length == 10){
   //     this.phone.number = parseInt(match);
   //     this.phone.invalid = false;
@@ -110,24 +110,24 @@ export class SubmissionForm1Component implements OnInit {
       this.eventData.street = this.signupForm.value['street'];
       try {
         this.eventData.address2 = (this.signupForm.value['apt']).toString();
-      } catch(error) {
+      } catch (error) {
         this.eventData.address2 = "";
       }
       this.eventData.city = this.signupForm.value['city'];
       this.eventData.state = this.signupForm.value['state'].name;
       try {
         this.eventData.zipcode = (this.signupForm.value['zipcode']).toString();
-      } catch(error) {
+      } catch (error) {
         this.eventData.zipcode = "";
       }
       try {
         this.eventData.phone = (this.signupForm.value['phone']).toString();
-      } catch(error) {
+      } catch (error) {
         this.eventData.phone = "";
       }
       this.eventData.email = this.signupForm.value['email'];
-      var carArr = this.signupForm.value['cars'];
-      if (carArr.length == 1){
+      let carArr = this.signupForm.value['cars'];
+      if (carArr.length == 1) {
         this.eventData.carEntry1 = carArr[0].code;
         this.eventData.carEntry2 = "";
         // this.eventData.carEntry3 = "";
@@ -135,7 +135,7 @@ export class SubmissionForm1Component implements OnInit {
         this.eventData.carEntry1 = carArr[0].code;
         this.eventData.carEntry2 = carArr[1].code;
         // this.eventData.carEntry3 = "";
-      } 
+      }
       // else {
       //   this.eventData.carEntry1 = carArr[0].code;
       //   this.eventData.carEntry2 = carArr[1].code;
@@ -160,7 +160,7 @@ export class SubmissionForm1Component implements OnInit {
 
 
   firePostAPI() {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', 'https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata');
     xhr.onreadystatechange = function (event) {
       // console.log(event.returnValue);
@@ -190,7 +190,7 @@ export class SubmissionForm1Component implements OnInit {
   }
 
   fireDeleteAPI() {
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open('POST', 'https://trz1r738ek.execute-api.us-east-1.amazonaws.com/2_1/secondtest');
     request.onreadystatechange = function (event) {
       console.log(event.returnValue);
@@ -199,16 +199,30 @@ export class SubmissionForm1Component implements OnInit {
     request.send();
   }
 
-  fireGetAPI() {
-    var request = new XMLHttpRequest();
-    request.open('GET', 'https://trz1r738ek.execute-api.us-east-1.amazonaws.com/2_2/secondtest/all');
-    request.onreadystatechange = function (event) {
-      console.log(event.returnValue);
-      console.log(event.target);
-    }
-    request.send();
-  }
+  // fireGetAPI() {
+  //   let request = new XMLHttpRequest();
+  //   let HTTPReponse;
+  //   let data;
+  //   let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + this.eventData.eventCode;
+  //   request.open('GET', url);
+  //   request.onreadystatechange = function (event) {
+  //     // console.log(event.returnValue);
+  //     // console.log(event.target);
+  //     HTTPReponse = event.target;
+  //     data = HTTPReponse.response;
+  //   }
+  //   request.setRequestHeader('Content-Type', 'application/json');
+  //   request.send();
+  // }
 
+  fireGetAPI() {
+    let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + this.eventData.eventCode;
+
+    fetch(url,{ method: 'GET' })
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(error => console.error('error:', error));
+  }
 }
 
 
@@ -260,7 +274,7 @@ export class SubmissionForm1Component implements OnInit {
 //   }
 
 //   checkZip(){
-//     var temp
+//     let temp
 //   }
 
 //   modalCancel() {
@@ -268,9 +282,9 @@ export class SubmissionForm1Component implements OnInit {
 //   }
 
 //   testPhone(value){
-//     var phoneString = value.toString();
-//     var regex = '[0-9]+';
-//     var match = phoneString.match(regex);
+//     let phoneString = value.toString();
+//     let regex = '[0-9]+';
+//     let match = phoneString.match(regex);
 //     if (match.length == 10){
 //       this.phone.number = parseInt(match);
 //       this.phone.invalid = false;
@@ -284,9 +298,9 @@ export class SubmissionForm1Component implements OnInit {
 //   submitForm(form: NgForm) {
 //     console.log(form);
 //     this.theCars = "";
-//     // var tempName = firstName;
+//     // let tempName = firstName;
 //     this.completedPopup = true;
-//     var tes = this.cars;
+//     let tes = this.cars;
 //     // this.nameMessage = "Thanks for your interest " + firstName + "!";
 //     // this.cars.value.forEach((e, index) => {
 //     //   if (index == 0){
