@@ -1,37 +1,45 @@
-<!--LOGIN SECTION-->
-<div class="container" *ngIf="passBlock == true">
-  <div class="row">
-    <div class="col-md-4">
-      <mat-form-field class="fullWidth" appearance="outline">
-        <mat-label>UserName *</mat-label>
-        <input matInput type="text" [(ngModel)]="userName" [disabled]="displayLoginError == true">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field class="fullWidth" appearance="outline">
-        <mat-label>Password *</mat-label>
-        <input matInput type="text" [(ngModel)]="password" [disabled]="displayLoginError == true">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="btnContainer">
-    <div>
-      <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="login()" [disabled]="displayLoginError == true">Login</button>
-    </div>
-  </div>
-</div>
-
-
-<!--ERROR MESSAGE-->
-  <div class="container" *ngIf="displayLoginError == true">
+<div id="pagecontentBlock">
+  <div class="container offsetTop mat-elevation-z2">
     <div class="row">
+      <div class="col-12">
+        <h3 class="offsetTop">Event Admin</h3>
+      </div>
+    </div>
+    <!--LOGIN SECTION-->
+    <!-- <div class="row" *ngIf="passBlock == true">
+      <div class="col-md-4">
+        <mat-form-field class="fullWidth" appearance="outline">
+          <mat-label>UserName *</mat-label>
+          <input matInput type="text" [(ngModel)]="userName" [disabled]="displayLoginError == true">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="fullWidth" appearance="outline">
+          <mat-label>Password *</mat-label>
+          <input matInput type="text" [(ngModel)]="password" [disabled]="displayLoginError == true">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="btnContainer">
+        <div>
+          <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="login()"
+            [disabled]="displayLoginError == true">Login</button>
+        </div>
+      </div>
+    </div> -->
+
+
+    <!--ERROR MESSAGE-->
+    <!-- <div class="row" *ngIf="displayLoginError == true">
       <div class="col-md-6 offset-md-3">
         <mat-card class="mat-elevation-z8 ModalCard">
           <div>
             <div class="row">
               <div class="col-12 cancelDiv">
-                <button mat-icon-button id="modalCancelBtn" (click)="modalCancel()"><i class="material-icons">cancel</i></button>
+                <button mat-icon-button id="modalCancelBtn" (click)="modalCancel()"><i
+                    class="material-icons">cancel</i></button>
 
               </div>
               <div class="col-12 bannerDiv">
@@ -47,13 +55,43 @@
           </div>
         </mat-card>
       </div>
+    </div> -->
+
+
+    <!--ADMIN CONTENT-->
+    <div class="row offsetTop" *ngIf="passBlock == false">
+      <div class="col-12">
+        <h4>Get Event Data</h4>
+      </div>
+      <div class="col-md-4 offset-md-4">
+        <mat-form-field class="fullWidth" appearance="outline">
+          <mat-label>Event Code</mat-label>
+          <input matInput [(ngModel)]="eventCodeInput">
+          <mat-hint>Input with or without dashes</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-12 offsetTop">
+        <div class="btnContainer">
+          <div>
+            <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="getEventData()"
+              [disabled]="eventCodeInput == ''">Submit</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-12 offsetTop">
+          <div class="btnContainer">
+            <div>
+              <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="dynamicDownloadTxt()">Create Txt</button>
+            </div>
+          </div>
+        </div>
     </div>
-  </div>
 
+    <!-- <a download="info.txt" id="downloadlink">Download</a> -->
 
-<!--ADMIN CONTENT-->
-<div class="container" *ngIf="passBlock == false">
-  <div class="row">
-    <p>Test</p>
+    <br>
+    <br>
   </div>
 </div>

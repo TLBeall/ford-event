@@ -22,9 +22,9 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 
-export const routingComponents = [
-  HomepageComponent,
-  AdminComponent,
-  PageNotFoundComponent,
-  SubmissionForm1Component
-];
+// export const routingComponents = [
+//   HomepageComponent,
+//   AdminComponent,
+//   PageNotFoundComponent,
+//   SubmissionForm1Component
+// ];

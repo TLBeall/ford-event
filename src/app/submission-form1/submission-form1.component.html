@@ -122,13 +122,24 @@
           <h6>When do you plan to acquire your next vehicle?
           </h6>
           <mat-radio-group aria-label="Select an option" formControlName="timeFrame">
-            <mat-radio-button value="option1">0-30 DAYS</mat-radio-button>
-            <mat-radio-button value="option2">1-3 MONTHS</mat-radio-button>
-            <mat-radio-button value="option3">4-6 MONTHS</mat-radio-button>
-            <mat-radio-button value="option4">7+ MONTHS</mat-radio-button>
-            <mat-radio-button value="option5">NO DEFINITE PLANS</mat-radio-button>
+            <mat-radio-button value="0 - 30 DAYS">0-30 DAYS</mat-radio-button>
+            <mat-radio-button value="1 - 3 MONTHS">1-3 MONTHS</mat-radio-button>
+            <mat-radio-button value="4 - 6 MONTHS">4-6 MONTHS</mat-radio-button>
+            <mat-radio-button value="7+ MONTHS">7+ MONTHS</mat-radio-button>
+            <mat-radio-button value="NO DEFINITE PLANS">NO DEFINITE PLANS</mat-radio-button>
           </mat-radio-group>
         </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+         <div class="col-md-7 text-center pageTextBlock">
+           <br>
+              <mat-checkbox formControlName="checkBox" required #cb>*Yes, I'm 18 years of age or older</mat-checkbox>
+              <!-- <mat-error *ngIf="signupForm.hasError('required', 'checkBox')">Required</mat-error> -->
+              <mat-error *ngIf="myForm.submitted && myCheckbox.checked==false">Required</mat-error>
+              <br>
+              <br>
+      </div>
       </div>
       <br>
       <div class="btnContainer">
@@ -144,9 +155,9 @@
         <div class="col-12 text-center">
           <a class="closingText" href="www.buyfordnow.com">www.BuyFordNow.com</a>
           <p class="closingText">© 2019 Ford Motors. All Rights Reserved.</p>
-          <button mat-flat-button type="button" (click)="firePostAPI()">POST</button>
+          <!-- <button mat-flat-button type="button" (click)="firePostAPI()">POST</button>
           <button mat-flat-button type="button" (click)="fireDeleteAPI()">DELETE</button>
-          <button mat-flat-button type="button" (click)="fireGetAPI()">GET</button>
+          <button mat-flat-button type="button" (click)="fireGetAPI()">GET</button> -->
 
         </div>
       </div>
@@ -172,6 +183,7 @@
                 <div class="col-12 updatedDiv">
                   <br>
                   <p class="updatedMsg">{{submissionMessage}}</p>
+                  <p class="updatedMsg"><b>Do not close message box. Bring to representative to verify submission.</b></p>
                   <br>
                 </div>
               </div>

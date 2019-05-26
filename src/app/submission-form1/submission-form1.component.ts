@@ -5,6 +5,7 @@ import { CarList } from '../models/car-list';
 import { StateList } from '../models/state-list';
 import { EventSubmission } from '../models/event-submission';
 import * as moment from 'moment';
+import { MatCheckbox } from '@angular/material';
 
 @Component({
   selector: 'app-submission-form1',
@@ -20,7 +21,10 @@ export class SubmissionForm1Component implements OnInit {
   completedPopup = false;
   submissionMessage = "";
   carCountMessage = "Please Select a Vehicle of Interest";
+  checked = false;
+  mustBeCheckedError = false;
   @ViewChild('f') myForm;
+  @ViewChild('cb') myCheckbox: MatCheckbox;
 
   constructor() { }
 
@@ -41,7 +45,8 @@ export class SubmissionForm1Component implements OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'age': new FormControl(null),
       'cars': new FormControl(null, [Validators.required, this.carCount.bind(this)]),
-      'timeFrame': new FormControl("option5", Validators.required)
+      'timeFrame': new FormControl("NO DEFINITE PLANS", Validators.required),
+      'checkBox': new FormControl(false, Validators.requiredTrue)
     });
 
     this.eventData = new EventSubmission();
@@ -65,10 +70,6 @@ export class SubmissionForm1Component implements OnInit {
     this.eventData.nextCarDate = "";
   }
 
-  // testSelection(control: FormControl){
-  //   console.log(control);
-  // }
-
   carCount(control: FormControl): { [s: string]: boolean } {
     if (control.value != null) {
       if (control.value.length == 0) {
@@ -84,9 +85,10 @@ export class SubmissionForm1Component implements OnInit {
   }
 
 
-
   modalCancel() {
+    this.myForm.resetForm();
     this.completedPopup = false;
+    window.scroll(0, 0);
   }
 
   // testPhone(value){
@@ -122,6 +124,10 @@ export class SubmissionForm1Component implements OnInit {
       }
       try {
         this.eventData.phone = (this.signupForm.value['phone']).toString();
+        let alts = ['-', '.', ' ', '(', ')'];
+        alts.forEach(element => {
+          this.eventData.phone = this.eventData.phone.replace(element, '');
+        });
       } catch (error) {
         this.eventData.phone = "";
       }
@@ -143,50 +149,79 @@ export class SubmissionForm1Component implements OnInit {
       // }
       this.eventData.nextCarDate = this.signupForm.value['timeFrame'];
       this.firePostAPI();
-
-      console.log(this.signupForm);
-      //Replace '(' and ')' and '-' in phone number field
-      let name: string = this.signupForm.value['firstName'];
-      this.submissionMessage = "Thanks for your interest " + name + "!";
-      this.completedPopup = true;
-      setTimeout(() => {
-        // this.signupForm.reset();
-        this.myForm.resetForm();
-        this.completedPopup = false;
-        window.scroll(0, 0);
-      }, 4500)
     }
   }
 
 
   firePostAPI() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata');
-    xhr.onreadystatechange = function (event) {
-      // console.log(event.returnValue);
-      // console.log(event.target);
-    }
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({
-      eventLocation: "" + this.eventData.eventLocation,
-      eventCode: "" + this.eventData.eventCode,
-      businessCode: "" + this.eventData.vendorID,
-      submissionDate: "" + this.eventData.submissionDate,
-      firstName: "" + this.eventData.firstName,
-      lastName: "" + this.eventData.lastName,
-      street: "" + this.eventData.street,
-      address2: "" + this.eventData.address2,
-      city: "" + this.eventData.city,
-      state: "" + this.eventData.state,
-      zipcode: "" + this.eventData.zipcode,
-      countryCode: "" + this.eventData.countryCode,
-      phone: "" + this.eventData.phone,
-      email: "" + this.eventData.email,
-      carEntry1: "" + this.eventData.carEntry1,
-      carEntry2: "" + this.eventData.carEntry2,
-      // carEntry3: "" + this.eventData.carEntry3,
-      nextCarDate: "" + this.eventData.nextCarDate
-    }));
+    // let xhr = new XMLHttpRequest();
+    // xhr.open('POST', 'https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata');
+    // xhr.onreadystatechange = function (event) {
+    //   // console.log(event.returnValue);
+    //   // console.log(event.target);
+    // }
+    // xhr.setRequestHeader('Content-Type', 'application/json');
+    // xhr.send(JSON.stringify({
+    //   eventLocation: "" + this.eventData.eventLocation,
+    //   eventCode: "" + this.eventData.eventCode,
+    //   businessCode: "" + this.eventData.vendorID,
+    //   submissionDate: "" + this.eventData.submissionDate,
+    //   firstName: "" + this.eventData.firstName,
+    //   lastName: "" + this.eventData.lastName,
+    //   street: "" + this.eventData.street,
+    //   address2: "" + this.eventData.address2,
+    //   city: "" + this.eventData.city,
+    //   state: "" + this.eventData.state,
+    //   zipcode: "" + this.eventData.zipcode,
+    //   countryCode: "" + this.eventData.countryCode,
+    //   phone: "" + this.eventData.phone,
+    //   email: "" + this.eventData.email,
+    //   carEntry1: "" + this.eventData.carEntry1,
+    //   carEntry2: "" + this.eventData.carEntry2,
+    //   // carEntry3: "" + this.eventData.carEntry3,
+    //   nextCarDate: "" + this.eventData.nextCarDate
+    // }));
+
+
+    fetch('https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata', {
+      method: 'POST',
+      body: JSON.stringify({
+        eventLocation: "" + this.eventData.eventLocation,
+        eventCode: "" + this.eventData.eventCode,
+        vendorID: "" + this.eventData.vendorID,
+        submissionDate: "" + this.eventData.submissionDate,
+        firstName: "" + this.eventData.firstName,
+        lastName: "" + this.eventData.lastName,
+        street: "" + this.eventData.street,
+        address2: "" + this.eventData.address2,
+        city: "" + this.eventData.city,
+        state: "" + this.eventData.state,
+        zipcode: "" + this.eventData.zipcode,
+        countryCode: "" + this.eventData.countryCode,
+        phone: "" + this.eventData.phone,
+        email: "" + this.eventData.email,
+        carEntry1: "" + this.eventData.carEntry1,
+        carEntry2: "" + this.eventData.carEntry2,
+        // carEntry3: "" + this.eventData.carEntry3,
+        nextCarDate: "" + this.eventData.nextCarDate
+      }),
+      headers: { 'Content-type': 'application/json' }
+    })
+      .catch(error => console.error('error:', error));
+
+
+
+    // console.log(this.signupForm);
+    //Replace '(' and ')' and '-' in phone number field
+    let name: string = this.signupForm.value['firstName'];
+    this.submissionMessage = "Thanks for your interest " + name + "!";
+    this.completedPopup = true;
+
+    // setTimeout(() => {
+    //   this.myForm.resetForm();
+    //   this.completedPopup = false;
+    //   window.scroll(0, 0);
+    // }, 4500)
   }
 
   fireDeleteAPI() {
@@ -215,14 +250,14 @@ export class SubmissionForm1Component implements OnInit {
   //   request.send();
   // }
 
-  fireGetAPI() {
-    let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + this.eventData.eventCode;
+  // fireGetAPI() {
+  //   let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + this.eventData.eventCode;
 
-    fetch(url,{ method: 'GET' })
-      .then(response => response.json())
-      .then(json => console.log(json))
-      .catch(error => console.error('error:', error));
-  }
+  //   fetch(url,{ method: 'GET' })
+  //     .then(response => response.json())
+  //     .then(json => console.log(json))
+  //     .catch(error => console.error('error:', error));
+  // }
 }
 
 
