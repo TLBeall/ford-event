@@ -92,14 +92,14 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <!-- <div class="row justify-content-center">
         <div class="col-md-4">
           <mat-form-field class="fullWidth" appearance="outline">
             <mat-label>Age</mat-label>
             <input matInput type="number" formControlName="age">
           </mat-form-field>
         </div>
-      </div>
+      </div> -->
       <br>
       <div class="row justify-content-center">
         <div class="col-md-7 text-center pageTextBlock">
@@ -122,11 +122,11 @@
           <h6>When do you plan to acquire your next vehicle?
           </h6>
           <mat-radio-group aria-label="Select an option" formControlName="timeFrame">
-            <mat-radio-button value="0 - 30 DAYS">0-30 DAYS</mat-radio-button>
-            <mat-radio-button value="1 - 3 MONTHS">1-3 MONTHS</mat-radio-button>
-            <mat-radio-button value="4 - 6 MONTHS">4-6 MONTHS</mat-radio-button>
-            <mat-radio-button value="7+ MONTHS">7+ MONTHS</mat-radio-button>
-            <mat-radio-button value="NO DEFINITE PLANS">NO DEFINITE PLANS</mat-radio-button>
+            <mat-radio-button value="A">0-30 DAYS</mat-radio-button>
+            <mat-radio-button value="B">1-3 MONTHS</mat-radio-button>
+            <mat-radio-button value="C">4-6 MONTHS</mat-radio-button>
+            <mat-radio-button value="D">7+ MONTHS</mat-radio-button>
+            <mat-radio-button value="E">NO DEFINITE PLANS</mat-radio-button>
           </mat-radio-group>
         </div>
       </div>
@@ -134,7 +134,8 @@
       <div class="row justify-content-center">
          <div class="col-md-7 text-center pageTextBlock">
            <br>
-              <mat-checkbox formControlName="checkBox" required #cb>*Yes, I'm 18 years of age or older</mat-checkbox>
+              <mat-checkbox formControlName="checkBox" required #cb></mat-checkbox>
+              <p>*Yes, I'm 18 years of age or older and I agree to receiving email communications including product information, offers, and incentives from Ford Motor Company and the local dealer.</p>
               <!-- <mat-error *ngIf="signupForm.hasError('required', 'checkBox')">Required</mat-error> -->
               <mat-error *ngIf="myForm.submitted && myCheckbox.checked==false">Required</mat-error>
               <br>
@@ -183,7 +184,7 @@
                 <div class="col-12 updatedDiv">
                   <br>
                   <p class="updatedMsg">{{submissionMessage}}</p>
-                  <p class="updatedMsg"><b>Do not close message box. Bring to representative to verify submission.</b></p>
+                  <p class="updatedMsg"><b>Do not close message box. Please bring to a representative to verify submission.</b></p>
                   <br>
                 </div>
               </div>

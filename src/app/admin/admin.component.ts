@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EventSubmission } from '../models/event-submission';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-admin',
@@ -17,7 +20,12 @@ export class AdminComponent implements OnInit {
   displayLoginError: boolean = false;
   eventCodeInput: string = "";
 
-  eventData;
+  eventData: EventSubmission[];
+  eventRecord: EventSubmission;
+  ts = ""; //Text String
+  eventDataLoaded = false;
+  eventDataCount;
+  reportEmail = "";
 
   private setting = {
     element: {
@@ -63,6 +71,7 @@ export class AdminComponent implements OnInit {
   }
 
   getEventData() {
+    this.eventDataLoaded = false;
     let eventCode = this.eventCodeInput;
     if (eventCode != "") {
       eventCode = eventCode.replace('-', '').replace(' ', '');
@@ -71,19 +80,51 @@ export class AdminComponent implements OnInit {
   }
 
   fireGetAPI(eventCode: string) {
+    // this.eventData = new EventSubmission();
     let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + eventCode;
+    let rawData;
+    this.eventData = [];
 
     try {
       fetch(url, { method: 'GET' })
         .then(response => response.json())
         .then(json => {
-          console.log(json);
-          this.eventData = json;
+          rawData = json;
+        })
+        .then(data => {
+          rawData.forEach(e => {
+            let f = new EventSubmission();
+            f.address2 = e.Address2;
+            f.carEntry1 = e.CarEntry1;
+            f.carEntry2 = e.CarEntry2;
+            f.city = e.City;
+            f.countryCode = e.CountryCode;
+            f.email = e.Email;
+            f.eventCode = this.convertEventCode(e.EventCode);
+            f.eventLocation = e.EventLocation;
+            f.firstName = e.FirstName;
+            f.lastName = e.LastName;
+            f.nextCarDate = e.NextCarDate;
+            f.phone = e.Phone.toString();
+            f.state = e.State;
+            f.street = e.Street;
+            f.submissionDate = e.SubmissionDate;
+            f.vendorID = e.VendorID;
+            f.zipcode = e.Zipcode;
+            this.eventData.push(f);
+          })
+          this.eventDataCount = (this.eventData.length).toString();
+          this.eventDataLoaded = true;
         })
         .catch(error => console.error('error:', error));
     } catch (err) {
       console.log(err);
     }
+  }
+
+  convertEventCode(ec: string) {
+    let eventCode = ec.slice(0, 6) + "-" + ec.slice(6);
+    return eventCode;
   }
 
   // generateTextFile() {
@@ -108,9 +149,12 @@ export class AdminComponent implements OnInit {
   // };
 
   dynamicDownloadTxt() {
+    this.createTextString();
+    let fName = "Event_" + this.eventData[0].eventCode;
+
     this.dyanmicDownloadByHtmlTag({
-      fileName: 'My Report',
-      text: JSON.stringify(this.eventData)
+      fileName: fName,
+      text: this.ts
     });
   }
 
@@ -128,6 +172,146 @@ export class AdminComponent implements OnInit {
 
     var event = new MouseEvent("click");
     element.dispatchEvent(event);
+  }
+
+  createTextString() {
+    this.createHeaderRecord();
+    this.createFulfillmentRequestRecords();
+    this.createFooterRecord();
+  }
+
+  createHeaderRecord() {
+    let currentDate = new Date();
+    let date = this.convertDate(currentDate);
+    this.ts = this.ts + "H" +
+      this.spaces(this.eventData[0].vendorID, 20, 0) +
+      this.spaces(date, 16, 0) +
+      "V2" +
+      this.spaces("", 0, 48) +
+      this.spaces(this.reportEmail, 80, 0) +
+      this.spaces("", 0, 1054);
+  }
+
+  createFooterRecord() {
+    let currentDate = new Date();
+    let date = this.convertDate(currentDate);
+    this.ts = this.ts +
+      "T" +
+      this.spaces(this.eventData[0].vendorID, 20, 0) +
+      this.spaces(date, 16, 0) +
+      this.spaces("", 0, 50) +
+      this.spaces(this.eventDataCount, 10, 0) +
+      this.spaces("", 0, 1124)
+  }
+
+  createFulfillmentRequestRecords() {
+    this.eventData.forEach(e => {
+      this.ts = this.ts + "FD " +
+        "I" +
+        this.spaces("", 0, 11) +
+        this.spaces("", 0, 6) +
+        this.spaces("", 0, 40) +
+        this.spaces(e.firstName, 30, 0) +
+        this.spaces("", 0, 1) +
+        this.spaces(e.lastName, 35, 0) +
+        this.spaces("", 5, 0) +
+        this.spaces(e.street, 40, 0) +
+        this.spaces(e.address2, 40, 0) +
+        this.spaces(e.city, 40, 0) +
+        this.spaces(e.state, 2, 0) +
+        this.spaces(e.countryCode, 80, 0) +
+        this.spaces(e.zipcode, 6, 0) +
+        this.spaces("", 4, 0) +
+        this.spaces(e.phone, 10, 0) +
+        this.spaces("", 0, 10) +
+        this.spaces(e.email, 80, 0) +
+        this.spaces((e.eventCode.slice(0, 6)), 10, 0) +
+        this.spaces((e.eventCode.slice(7)), 3, 0) +
+        this.spaces("", 0, 50) +
+        this.spaces("", 0, 10) +
+        this.spaces(e.email, 80, 0) +
+        this.spaces((this.convertDate(e.submissionDate)), 16, 0) +
+        this.spaces("", 0, 17) +
+        this.spaces("", 0, 6) +
+        this.carSpaces(e.carEntry1, e.carEntry2) +
+        this.spaces("2019", 4, 0) +
+        "P" +
+        "EN" +
+        this.questionSpaces("1077", e.nextCarDate) +
+        this.questionSpaces("0799", "A") +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
+        this.spaces("", 0, 24)
+    });
+  }
+
+  convertDate(date) {
+    return moment(date).format('L');
+  }
+
+  spaces(str: string, length: number, blankSpaces: number) {
+    let s = " ";
+    let spaces = "";
+    let retStr = "";
+
+    //If value is null
+    if (str == "null") {
+      retStr = s.repeat(length);
+    } else {
+      if (blankSpaces == 0) {
+        let strLength = str.length;
+        let diff = length - strLength;
+        spaces = s.repeat(diff);
+      } else {
+        spaces = s.repeat(blankSpaces);
+      }
+      retStr = str + spaces;
+    }
+    return retStr
+  }
+
+  carSpaces(car1: string, car2: string) {
+    let str = "";
+    let retStr = "";
+    if (car1 != "null" && car2 == "null") {
+      str = car1;
+      retStr = this.spaces(str, 15, 0);
+    }
+    if (car1 != "null" && car2 != "null") {
+      str = car1 + " " + car2;
+      retStr = this.spaces(str, 15, 0);
+    }
+    return retStr;
+  }
+
+  questionSpaces(question: string, answer) {
+    let str = question + answer;
+    return this.spaces(str, 24, 0);
   }
 
 

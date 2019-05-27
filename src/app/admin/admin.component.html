@@ -67,7 +67,7 @@
         <mat-form-field class="fullWidth" appearance="outline">
           <mat-label>Event Code</mat-label>
           <input matInput [(ngModel)]="eventCodeInput">
-          <mat-hint>Input with or without dashes</mat-hint>
+          <mat-hint>Campaign and sequence numbers. With or without dashes</mat-hint>
         </mat-form-field>
       </div>
       <div class="col-12 offsetTop">
@@ -78,12 +78,22 @@
           </div>
         </div>
       </div>
+      <div class="col-md-4 offset-md-4 offsetTop" *ngIf="eventDataLoaded == true">
+          <h4>{{eventDataCount}} Records Retrieved...</h4>
+        </div>
 
-
+        <div class="col-md-4 offset-md-4">
+            <br>
+            <mat-form-field class="fullWidth" appearance="outline">
+              <mat-label>Email Address for report errors.</mat-label>
+              <input matInput [(ngModel)]="reportEmail">
+              <!-- <mat-hint>Input with or without dashes</mat-hint> -->
+            </mat-form-field>
+          </div>
       <div class="col-12 offsetTop">
           <div class="btnContainer">
             <div>
-              <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="dynamicDownloadTxt()">Create Txt</button>
+              <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="dynamicDownloadTxt()" [disabled]="reportEmail ==''">Create Txt</button>
             </div>
           </div>
         </div>
