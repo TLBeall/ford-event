@@ -45,7 +45,7 @@ export class SubmissionForm1Component implements OnInit {
       'email': new FormControl(null, [Validators.required, Validators.email]),
       'age': new FormControl(null),
       'cars': new FormControl(null, [Validators.required, this.carCount.bind(this)]),
-      'timeFrame': new FormControl("NO DEFINITE PLANS", Validators.required),
+      'timeFrame': new FormControl("E", Validators.required),
       'checkBox': new FormControl(false, Validators.requiredTrue)
     });
 
@@ -154,35 +154,6 @@ export class SubmissionForm1Component implements OnInit {
 
 
   firePostAPI() {
-    // let xhr = new XMLHttpRequest();
-    // xhr.open('POST', 'https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata');
-    // xhr.onreadystatechange = function (event) {
-    //   // console.log(event.returnValue);
-    //   // console.log(event.target);
-    // }
-    // xhr.setRequestHeader('Content-Type', 'application/json');
-    // xhr.send(JSON.stringify({
-    //   eventLocation: "" + this.eventData.eventLocation,
-    //   eventCode: "" + this.eventData.eventCode,
-    //   businessCode: "" + this.eventData.vendorID,
-    //   submissionDate: "" + this.eventData.submissionDate,
-    //   firstName: "" + this.eventData.firstName,
-    //   lastName: "" + this.eventData.lastName,
-    //   street: "" + this.eventData.street,
-    //   address2: "" + this.eventData.address2,
-    //   city: "" + this.eventData.city,
-    //   state: "" + this.eventData.state,
-    //   zipcode: "" + this.eventData.zipcode,
-    //   countryCode: "" + this.eventData.countryCode,
-    //   phone: "" + this.eventData.phone,
-    //   email: "" + this.eventData.email,
-    //   carEntry1: "" + this.eventData.carEntry1,
-    //   carEntry2: "" + this.eventData.carEntry2,
-    //   // carEntry3: "" + this.eventData.carEntry3,
-    //   nextCarDate: "" + this.eventData.nextCarDate
-    // }));
-
-
     fetch('https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata', {
       method: 'POST',
       body: JSON.stringify({

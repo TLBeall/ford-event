@@ -1,107 +1,187 @@
-<div id="pagecontentBlock">
-  <div class="container offsetTop mat-elevation-z2">
-    <div class="row">
-      <div class="col-12">
-        <h3 class="offsetTop">Event Admin</h3>
-      </div>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="offsetTop">Event Admin</h2>
+      <br>
+      <br>
     </div>
-    <!--LOGIN SECTION-->
-    <!-- <div class="row" *ngIf="passBlock == true">
-      <div class="col-md-4">
-        <mat-form-field class="fullWidth" appearance="outline">
-          <mat-label>UserName *</mat-label>
-          <input matInput type="text" [(ngModel)]="userName" [disabled]="displayLoginError == true">
-        </mat-form-field>
-      </div>
-      <div class="col-md-4">
-        <mat-form-field class="fullWidth" appearance="outline">
-          <mat-label>Password *</mat-label>
-          <input matInput type="text" [(ngModel)]="password" [disabled]="displayLoginError == true">
-        </mat-form-field>
-      </div>
-    </div>
+  </div>
+</div>
 
-    <div class="row">
+<!--LOGIN SECTION-->
+<div class="container mat-elevation-z2" *ngIf="passBlock == true">
+  <div class="row">
+    <div class="col-12">
+      <br>
+    </div>
+    <div class="col-md-4 offset-md-2">
+      <mat-form-field class="fullWidth" appearance="outline">
+        <mat-label>UserName *</mat-label>
+        <input matInput type="text" [(ngModel)]="userName" [disabled]="displayLoginError == true">
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field class="fullWidth" appearance="outline">
+        <mat-label>Password *</mat-label>
+        <input matInput type="text" [(ngModel)]="password" [disabled]="displayLoginError == true">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2 offset-md-5">
       <div class="btnContainer">
         <div>
           <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="login()"
             [disabled]="displayLoginError == true">Login</button>
         </div>
+        <br>
+        <br>
       </div>
-    </div> -->
+    </div>
+  </div>
+</div>
 
 
-    <!--ERROR MESSAGE-->
-    <!-- <div class="row" *ngIf="displayLoginError == true">
-      <div class="col-md-6 offset-md-3">
-        <mat-card class="mat-elevation-z8 ModalCard">
-          <div>
-            <div class="row">
-              <div class="col-12 cancelDiv">
-                <button mat-icon-button id="modalCancelBtn" (click)="modalCancel()"><i
-                    class="material-icons">cancel</i></button>
+<!--ERROR MESSAGE-->
+<div class="container" *ngIf="displayLoginError == true">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <mat-card class="mat-elevation-z8 ModalCard">
+        <div>
+          <div class="row">
+            <div class="col-12 cancelDiv">
+              <button mat-icon-button id="modalCancelBtn" (click)="modalCancel()"><i
+                  class="material-icons">cancel</i></button>
 
-              </div>
-              <div class="col-12 bannerDiv">
-                <i class="material-icons bannerIcon">error_outline</i>
-              </div>
             </div>
-            <div class="row">
-              <div class="col-12 contentDiv">
-                <p class="contentMsg">{{userErr}}</p>
-                <p class="contentMsg">{{passErr}}</p>
-              </div>
+            <div class="col-12 bannerDiv">
+              <i class="material-icons bannerIcon">error_outline</i>
             </div>
           </div>
-        </mat-card>
-      </div>
-    </div> -->
+          <div class="row">
+            <div class="col-12 contentDiv">
+              <p class="contentMsg">{{userErr}}</p>
+              <p class="contentMsg">{{passErr}}</p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>
 
 
-    <!--ADMIN CONTENT-->
-    <div class="row offsetTop" *ngIf="passBlock == false">
+<div [hidden]="passBlock == true">
+  <!--ADMIN CONTENT-->
+  <div class="container mat-elevation-z2">
+    <div class="row">
       <div class="col-12">
+        <br>
         <h4>Get Event Data</h4>
+        <br>
       </div>
-      <div class="col-md-4 offset-md-4">
+    </div>
+    <div class="row">
+      <div class="col-md-4">
         <mat-form-field class="fullWidth" appearance="outline">
           <mat-label>Event Code</mat-label>
           <input matInput [(ngModel)]="eventCodeInput">
           <mat-hint>Campaign and sequence numbers. With or without dashes</mat-hint>
         </mat-form-field>
       </div>
-      <div class="col-12 offsetTop">
-        <div class="btnContainer">
-          <div>
-            <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="getEventData()"
-              [disabled]="eventCodeInput == ''">Submit</button>
-          </div>
-        </div>
+      <div class="col-md-4">
+        <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="getEventData()"
+          [disabled]="eventCodeInput == ''">Submit</button>
       </div>
-      <div class="col-md-4 offset-md-4 offsetTop" *ngIf="eventDataLoaded == true">
-          <h4>{{eventDataCount}} Records Retrieved...</h4>
-        </div>
+    </div>
+    <div>
+      <br>
+      <br>
+    </div>
+  </div>
+  <br>
 
-        <div class="col-md-4 offset-md-4">
-            <br>
-            <mat-form-field class="fullWidth" appearance="outline">
-              <mat-label>Email Address for report errors.</mat-label>
-              <input matInput [(ngModel)]="reportEmail">
-              <!-- <mat-hint>Input with or without dashes</mat-hint> -->
-            </mat-form-field>
-          </div>
-      <div class="col-12 offsetTop">
-          <div class="btnContainer">
-            <div>
-              <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="dynamicDownloadTxt()" [disabled]="reportEmail ==''">Create Txt</button>
-            </div>
-          </div>
-        </div>
+
+  <div class="container mat-elevation-z2" [hidden]="eventDataLoaded == false">
+    <div class="row">
+      <div class="col-12">
+        <br>
+        <h5>Event Data for {{eventCodeInput}}</h5>
+        <h6>{{eventDataCount}} Records Retrieved</h6>
+      </div>
     </div>
 
-    <!-- <a download="info.txt" id="downloadlink">Download</a> -->
+    <div class="row">
+      <div class="col-12">
+        <table mat-table [dataSource]="dataSource">
 
-    <br>
-    <br>
+          <ng-container matColumnDef="userID" sticky>
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{element.userID}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="firstName">
+            <th mat-header-cell *matHeaderCellDef> First Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="lastName">
+            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef> City </th>
+            <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef> State </th>
+            <td mat-cell *matCellDef="let element"> {{element.state}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="carEntry1">
+            <th mat-header-cell *matHeaderCellDef> Car Entry 1 </th>
+            <td mat-cell *matCellDef="let element"> {{element.carEntry1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="carEntry2">
+            <th mat-header-cell *matHeaderCellDef> Car Entry 2 </th>
+            <td mat-cell *matCellDef="let element"> {{element.carEntry2}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+        <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h5>Export Data</h5>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field class="fullWidth" appearance="outline">
+          <mat-label>Email Address</mat-label>
+          <input matInput [(ngModel)]="reportEmail">
+          <mat-hint>Included in report for return errors.</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="dynamicDownloadTxt()"
+          [disabled]="reportEmail ==''">Create Text File</button>
+      </div>
+      <div class="col-12">
+        <br>
+        <br>
+      </div>
+    </div>
+
   </div>
+  <br>
+  <br>
+  <br>
 </div>

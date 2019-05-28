@@ -8,8 +8,10 @@ import { SubmissionForm1Component } from './submission-form1/submission-form1.co
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '', pathMatch: 'full', component: HomepageComponent},  // this is how to set up the default page
-  {path: 'baltimore', component: SubmissionForm1Component },
+  {path: '', redirectTo: '', pathMatch: 'full', component: SubmissionForm1Component},  // this is how to set up the default page
+  // {path: '', redirectTo: '', pathMatch: 'full', component: HomepageComponent},  // this is how to set up the default page
+
+  // {path: 'baltimore', component: SubmissionForm1Component },
   {path: 'admin', component: AdminComponent },
 
     //Keep this path last since it is PageNotFound

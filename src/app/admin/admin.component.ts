@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventSubmission } from '../models/event-submission';
 import * as moment from 'moment';
+import {MatPaginator, MatSort, MatTableDataSource, PageEvent, MatTable} from '@angular/material';
+
 
 
 @Component({
@@ -9,12 +11,12 @@ import * as moment from 'moment';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  pass: string = "!mostFore1";
+  pass: string = "!mostFor1";
   password: string = "";
-  user: string = "ForemostEvents";
+  user: string = "FormostEvents";
   userName: string = "";
-  // passBlock = true;
-  passBlock = false; //Keep as false for testing
+  passBlock = true;
+  // passBlock = false; //Keep as false for testing
   userErr = "";
   passErr = "";
   displayLoginError: boolean = false;
@@ -27,6 +29,11 @@ export class AdminComponent implements OnInit {
   eventDataCount;
   reportEmail = "";
 
+  displayedColumns = ['userID', 'firstName', 'lastName', 'city', 'state', 'carEntry1', 'carEntry2'];
+  dataSource: MatTableDataSource<EventSubmission>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  pageSizeOptions = [10, 25, 50];
+
   private setting = {
     element: {
       dynamicDownload: null as HTMLElement
@@ -36,7 +43,9 @@ export class AdminComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    this.eventData = [];
+    this.dataSource = new MatTableDataSource<EventSubmission>();
+    this.dataSource.paginator = this.paginator;
   }
 
   login() {
@@ -57,11 +66,11 @@ export class AdminComponent implements OnInit {
       this.passErr = "Incorrect Password";
     }
 
-    // if (userValid == true && passValid == true){
-    //   this.passBlock = false;
-    // } else {
-    //   this.displayLoginError = true;
-    // }
+    if (userValid == true && passValid == true){
+      this.passBlock = false;
+    } else {
+      this.displayLoginError = true;
+    }
   }
 
   modalCancel() {
@@ -80,7 +89,6 @@ export class AdminComponent implements OnInit {
   }
 
   fireGetAPI(eventCode: string) {
-    // this.eventData = new EventSubmission();
     let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + eventCode;
     let rawData;
     this.eventData = [];
@@ -94,6 +102,7 @@ export class AdminComponent implements OnInit {
         .then(data => {
           rawData.forEach(e => {
             let f = new EventSubmission();
+            f.userID = e.UserID;
             f.address2 = e.Address2;
             f.carEntry1 = e.CarEntry1;
             f.carEntry2 = e.CarEntry2;
@@ -114,6 +123,8 @@ export class AdminComponent implements OnInit {
             this.eventData.push(f);
           })
           this.eventDataCount = (this.eventData.length).toString();
+          this.dataSource = new MatTableDataSource<EventSubmission>(this.eventData);
+          this.dataSource.paginator = this.paginator;
           this.eventDataLoaded = true;
         })
         .catch(error => console.error('error:', error));
@@ -127,26 +138,6 @@ export class AdminComponent implements OnInit {
     return eventCode;
   }
 
-  // generateTextFile() {
-  //   let blob = new Blob([this.eventData], { type: 'text/plain' })
-  //   window.URL.createObjectURL(blob);
-
-  //   var fileText = "I am the first part of the info being emailed.\r\nI am the second part.\r\nI am the third part.";
-  //   var fileName = "newfile001.txt"
-  //   // saveTextAsFile(fileText, fileName);
-  // }
-  // generateTxt(passForm) {
-  //   // let text = "Test";
-  //   // let textFile = null;
-  //   // var data = new Blob([text], { type: 'text/plain' });
-  //   // // If we are replacing a previously generated file we need to
-  //   // // manually revoke the object URL to avoid memory leaks.
-  //   // // if (textFile !== null) {
-  //   // //   window.URL.revokeObjectURL(textFile);
-  //   // // }
-  //   // textFile = window.URL.createObjectURL(data);
-  //   // return textFile;
-  // };
 
   dynamicDownloadTxt() {
     this.createTextString();
@@ -313,8 +304,6 @@ export class AdminComponent implements OnInit {
     let str = question + answer;
     return this.spaces(str, 24, 0);
   }
-
-
 
 
 }

@@ -8,7 +8,7 @@ import {
   MatTreeModule, MatButtonModule, MatIconModule, MatCardModule, MatTabsModule, MatMenuModule, MatToolbarModule,
   MatSortModule, MatProgressSpinnerModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule,
   MatCheckboxModule, MatProgressBarModule, MatSlideToggleModule, MatAutocompleteModule, MatChipsModule, MatButtonToggleModule,
-  MatDialogModule, MatGridListModule, MatTooltipModule, MatRadioModule
+  MatDialogModule, MatGridListModule, MatTooltipModule, MatRadioModule, MatTableModule, MatPaginatorModule
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -58,6 +58,8 @@ import { SubmissionForm1Component } from './submission-form1/submission-form1.co
     MatGridListModule,
     MatTooltipModule,
     MatRadioModule,
+    MatTableModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
   ],
   providers: [],

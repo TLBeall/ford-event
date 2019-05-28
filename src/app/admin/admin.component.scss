@@ -4,6 +4,24 @@
     width:100%;
 }
 
+.mainBody{
+    height: 100%;
+    width: 100%;
+    background-color: $color-whitesmoke;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+// #pagecontentBlock{
+//     .container{
+//         background-color: white;
+//     }
+// }
+
+#submitBtn{
+    top: 25%;
+}
 
 .btnContainer{
     text-align: center;
@@ -12,11 +30,12 @@
         display: inline-block;
         border-radius: 4px;
     }
-
-    #submitBtn{
-        font-size: 18pt;
-    }
 }
+
+table {
+    width: 96%;
+    margin: 0 auto;
+  }
 
 // #pagecontentBlock{
 //     width: 100%;

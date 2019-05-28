@@ -136,8 +136,7 @@
            <br>
               <mat-checkbox formControlName="checkBox" required #cb></mat-checkbox>
               <p>*Yes, I'm 18 years of age or older and I agree to receiving email communications including product information, offers, and incentives from Ford Motor Company and the local dealer.</p>
-              <!-- <mat-error *ngIf="signupForm.hasError('required', 'checkBox')">Required</mat-error> -->
-              <mat-error *ngIf="myForm.submitted && myCheckbox.checked==false">Required</mat-error>
+              <mat-error *ngIf="myForm.submitted && myCheckbox.checked==false">Opt in Required</mat-error>
               <br>
               <br>
       </div>
@@ -156,10 +155,6 @@
         <div class="col-12 text-center">
           <a class="closingText" href="www.buyfordnow.com">www.BuyFordNow.com</a>
           <p class="closingText">© 2019 Ford Motors. All Rights Reserved.</p>
-          <!-- <button mat-flat-button type="button" (click)="firePostAPI()">POST</button>
-          <button mat-flat-button type="button" (click)="fireDeleteAPI()">DELETE</button>
-          <button mat-flat-button type="button" (click)="fireGetAPI()">GET</button> -->
-
         </div>
       </div>
       <br>

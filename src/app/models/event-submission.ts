@@ -1,6 +1,7 @@
 import { NgLocaleLocalization } from '@angular/common';
 
 export class EventSubmission {
+    userID: number;
     eventLocation: string;
     eventCode: string;
     vendorID: string;
