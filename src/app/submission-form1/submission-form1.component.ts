@@ -50,9 +50,9 @@ export class SubmissionForm1Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Baltimore';
-    this.eventData.eventCode = '320474123';
-    this.eventData.vendorID = '0000000349';
+    this.eventData.eventLocation = 'Roanoke';
+    this.eventData.eventCode = '501076001';
+    this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
     this.eventData.lastName = "";
@@ -66,7 +66,7 @@ export class SubmissionForm1Component implements OnInit {
     this.eventData.email = "";
     this.eventData.carEntry1 = "";
     this.eventData.carEntry2 = "";
-    // this.eventData.carEntry3 = "";
+    this.eventData.carEntry3 = "";
     this.eventData.nextCarDate = "";
   }
 
@@ -76,7 +76,7 @@ export class SubmissionForm1Component implements OnInit {
         this.carCountMessage = "Please Select a Vehicle of Interest";
         return { 'forbiddenCount': true };
       }
-      if (control.value.length > 2) {
+      if (control.value.length > 3) {
         this.carCountMessage = "Please Only Select up to 2 Vehicles";
         return { 'forbiddenCount': true };
       }
@@ -136,17 +136,17 @@ export class SubmissionForm1Component implements OnInit {
       if (carArr.length == 1) {
         this.eventData.carEntry1 = carArr[0].code;
         this.eventData.carEntry2 = "";
-        // this.eventData.carEntry3 = "";
-      } else {
+        this.eventData.carEntry3 = "";
+      } else if (carArr.length == 2) {
         this.eventData.carEntry1 = carArr[0].code;
         this.eventData.carEntry2 = carArr[1].code;
-        // this.eventData.carEntry3 = "";
+        this.eventData.carEntry3 = "";
       }
-      // else {
-      //   this.eventData.carEntry1 = carArr[0].code;
-      //   this.eventData.carEntry2 = carArr[1].code;
-      //   this.eventData.carEntry3 = carArr[2].code;
-      // }
+      else if (carArr.length == 3) {
+        this.eventData.carEntry1 = carArr[0].code;
+        this.eventData.carEntry2 = carArr[1].code;
+        this.eventData.carEntry3 = carArr[2].code;
+      }
       this.eventData.nextCarDate = this.signupForm.value['timeFrame'];
       this.firePostAPI();
     }
@@ -173,7 +173,7 @@ export class SubmissionForm1Component implements OnInit {
         email: "" + this.eventData.email,
         carEntry1: "" + this.eventData.carEntry1,
         carEntry2: "" + this.eventData.carEntry2,
-        // carEntry3: "" + this.eventData.carEntry3,
+        carEntry3: "" + this.eventData.carEntry3,
         nextCarDate: "" + this.eventData.nextCarDate
       }),
       headers: { 'Content-type': 'application/json' }

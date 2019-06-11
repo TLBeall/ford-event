@@ -18,6 +18,6 @@ export class EventSubmission {
     email: string;
     carEntry1: string;
     carEntry2: string;
-    // carEntry3: string;
+    carEntry3: string;
     nextCarDate: string;
 }
