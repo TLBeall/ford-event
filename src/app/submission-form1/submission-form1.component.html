@@ -134,9 +134,8 @@
       <div class="row justify-content-center">
          <div class="col-md-7 text-center pageTextBlock">
            <br>
-              <mat-checkbox formControlName="checkBox" required #cb></mat-checkbox>
+              <mat-checkbox formControlName="emailOptIn" #cb></mat-checkbox>
               <p>*Yes, I'm 18 years of age or older and I agree to receiving email communications including product information, offers, and incentives from Ford Motor Company and the local dealer.</p>
-              <mat-error *ngIf="myForm.submitted && myCheckbox.checked==false">Opt in Required</mat-error>
               <br>
               <br>
       </div>

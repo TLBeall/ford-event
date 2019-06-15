@@ -106,6 +106,7 @@ export class AdminComponent implements OnInit {
             f.address2 = e.Address2;
             f.carEntry1 = e.CarEntry1;
             f.carEntry2 = e.CarEntry2;
+            f.carEntry3 = e.CarEntry3;
             f.city = e.City;
             f.countryCode = e.CountryCode;
             f.email = e.Email;
@@ -120,6 +121,7 @@ export class AdminComponent implements OnInit {
             f.submissionDate = e.SubmissionDate;
             f.vendorID = e.VendorID;
             f.zipcode = e.Zipcode;
+            f.emailOptIn = e.EmailOptIn;
             this.eventData.push(f);
           })
           this.eventDataCount = (this.eventData.length).toString();
@@ -147,6 +149,7 @@ export class AdminComponent implements OnInit {
       fileName: fName,
       text: this.ts
     });
+    this.ts = "";
   }
 
   dyanmicDownloadByHtmlTag(arg: {
@@ -220,17 +223,16 @@ export class AdminComponent implements OnInit {
         this.spaces((e.eventCode.slice(7)), 3, 0) +
         this.spaces("", 0, 50) +
         this.spaces("", 0, 10) +
-        this.spaces(e.email, 80, 0) +
         this.spaces((this.convertDate(e.submissionDate)), 16, 0) +
         this.spaces("", 0, 17) +
         this.spaces("", 0, 6) +
-        this.carSpaces(e.carEntry1, e.carEntry2) +
+        this.carSpaces(e.carEntry1, e.carEntry2, e.carEntry3) +
         this.spaces("2019", 4, 0) +
         "P" +
         "EN" +
         this.questionSpaces("1077", e.nextCarDate) +
-        this.questionSpaces("0799", "A") +
         this.spaces("", 0, 24) +
+        this.questionSpaces("0799", e.emailOptIn) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
@@ -265,6 +267,9 @@ export class AdminComponent implements OnInit {
     return moment(date).format('L');
   }
 
+  //Instructions for spaces:
+  //To make raw spaces: this.spaces("", 0, N) where N is number of spaces
+  //To make filler spaces: this.spaces("string", N, 0) where N is the defined as the total spaces for that part of the record
   spaces(str: string, length: number, blankSpaces: number) {
     let s = " ";
     let spaces = "";
@@ -286,17 +291,37 @@ export class AdminComponent implements OnInit {
     return retStr
   }
 
-  carSpaces(car1: string, car2: string) {
+  carSpaces(car1: string, car2: string, car3: string) {
     let str = "";
     let retStr = "";
-    if (car1 != "null" && car2 == "null") {
-      str = car1;
+    let carCount = 1;
+    let tempCar1 = car1;
+    let tempCar2 = "";
+    let tempCar3 = "";
+    if (car2 == "null"){
+      tempCar2 = "";
+    } else {
+      tempCar2 = car2;
+      carCount++;
+    }
+    if (car3 == "null"){
+      tempCar3 = "";
+    } else {
+      tempCar3 = car3;
+      carCount++;
+    }
+
+    if (carCount == 1){
+      str = tempCar1;
+      retStr = this.spaces(str, 15, 0);
+    } else if (carCount == 2){
+      str = tempCar1 + " " + tempCar2;
+      retStr = this.spaces(str, 15, 0);
+    } else {
+      str = tempCar1 + " " + tempCar2 + " " + tempCar3;
       retStr = this.spaces(str, 15, 0);
     }
-    if (car1 != "null" && car2 != "null") {
-      str = car1 + " " + car2;
-      retStr = this.spaces(str, 15, 0);
-    }
+
     return retStr;
   }
 

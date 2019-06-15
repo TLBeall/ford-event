@@ -46,7 +46,7 @@ export class SubmissionForm1Component implements OnInit {
       'age': new FormControl(null),
       'cars': new FormControl(null, [Validators.required, this.carCount.bind(this)]),
       'timeFrame': new FormControl("E", Validators.required),
-      'checkBox': new FormControl(false, Validators.requiredTrue)
+      'emailOptIn': new FormControl(false)
     });
 
     this.eventData = new EventSubmission();
@@ -68,6 +68,7 @@ export class SubmissionForm1Component implements OnInit {
     this.eventData.carEntry2 = "";
     this.eventData.carEntry3 = "";
     this.eventData.nextCarDate = "";
+    this.eventData.emailOptIn = "";
   }
 
   carCount(control: FormControl): { [s: string]: boolean } {
@@ -148,6 +149,11 @@ export class SubmissionForm1Component implements OnInit {
         this.eventData.carEntry3 = carArr[2].code;
       }
       this.eventData.nextCarDate = this.signupForm.value['timeFrame'];
+      if (this.signupForm.value['emailOptIn'] == true){
+        this.eventData.emailOptIn = "A";
+      } else {
+        this.eventData.emailOptIn = " ";
+      }
       this.firePostAPI();
     }
   }
@@ -174,7 +180,8 @@ export class SubmissionForm1Component implements OnInit {
         carEntry1: "" + this.eventData.carEntry1,
         carEntry2: "" + this.eventData.carEntry2,
         carEntry3: "" + this.eventData.carEntry3,
-        nextCarDate: "" + this.eventData.nextCarDate
+        nextCarDate: "" + this.eventData.nextCarDate,
+        emailOptIn: "" + this.eventData.emailOptIn
       }),
       headers: { 'Content-type': 'application/json' }
     })
