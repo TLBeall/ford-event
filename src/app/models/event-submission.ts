@@ -20,4 +20,5 @@ export class EventSubmission {
     carEntry2: string;
     carEntry3: string;
     nextCarDate: string;
+    emailOptIn: string;
 }
