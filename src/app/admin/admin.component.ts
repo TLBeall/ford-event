@@ -184,6 +184,7 @@ export class AdminComponent implements OnInit {
       this.spaces("", 0, 48) +
       this.spaces(this.reportEmail, 80, 0) +
       this.spaces("", 0, 1054);
+      this.ts = this.ts + "\n"
   }
 
   createFooterRecord() {
@@ -259,7 +260,8 @@ export class AdminComponent implements OnInit {
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
-        this.spaces("", 0, 24)
+        this.spaces("", 0, 24) +
+        "\n"
     });
   }
 
