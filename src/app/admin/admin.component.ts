@@ -28,6 +28,7 @@ export class AdminComponent implements OnInit {
   eventDataLoaded = false;
   eventDataCount;
   reportEmail = "";
+  spaceCount: number = 0;
 
   displayedColumns = ['userID', 'firstName', 'lastName', 'city', 'state', 'carEntry1', 'carEntry2'];
   dataSource: MatTableDataSource<EventSubmission>;
@@ -125,6 +126,9 @@ export class AdminComponent implements OnInit {
             this.eventData.push(f);
           })
           this.eventDataCount = (this.eventData.length).toString();
+          while (this.eventDataCount.length < 10){
+            this.eventDataCount = "0" + this.eventDataCount;
+          }
           this.dataSource = new MatTableDataSource<EventSubmission>(this.eventData);
           this.dataSource.paginator = this.paginator;
           this.eventDataLoaded = true;
@@ -175,49 +179,64 @@ export class AdminComponent implements OnInit {
   }
 
   createHeaderRecord() {
+    this.spaceCount = 0;
     let currentDate = new Date();
     let date = this.convertDate(currentDate);
-    this.ts = this.ts + "H" +
-      this.spaces(this.eventData[0].vendorID, 20, 0) +
+    this.ts = this.ts + 
+      this.spaces("H", 1, 0) +
+      this.spaces("0000000297", 20, 0) +
       this.spaces(date, 16, 0) +
-      "V2" +
+      this.spaces("V2", 2, 0) +
       this.spaces("", 0, 48) +
       this.spaces(this.reportEmail, 80, 0) +
       this.spaces("", 0, 1054);
+      console.log("Header Count: " + this.spaceCount);
       this.ts = this.ts + "\n"
   }
 
   createFooterRecord() {
+    this.spaceCount = 0;
     let currentDate = new Date();
     let date = this.convertDate(currentDate);
     this.ts = this.ts +
-      "T" +
-      this.spaces(this.eventData[0].vendorID, 20, 0) +
+      this.spaces("T", 1, 0) +
+      this.spaces("0000000297", 20, 0) +
       this.spaces(date, 16, 0) +
       this.spaces("", 0, 50) +
       this.spaces(this.eventDataCount, 10, 0) +
       this.spaces("", 0, 1124)
+      console.log("Footer Count: " + this.spaceCount);
   }
 
   createFulfillmentRequestRecords() {
     this.eventData.forEach(e => {
-      this.ts = this.ts + "FD " +
-        "I" +
+      this.spaceCount = 0;
+      this.ts = this.ts + 
+        this.spaces("FD", 3, 0) +
+        this.spaces("I", 1, 0 )+
         this.spaces("", 0, 11) +
         this.spaces("", 0, 6) +
         this.spaces("", 0, 40) +
-        this.spaces(e.firstName, 30, 0) +
+        this.spaces("", 0, 30) + //first name 
+        // this.spaces(e.firstName, 30, 0) +
         this.spaces("", 0, 1) +
-        this.spaces(e.lastName, 35, 0) +
-        this.spaces("", 5, 0) +
-        this.spaces(e.street, 40, 0) +
-        this.spaces(e.address2, 40, 0) +
-        this.spaces(e.city, 40, 0) +
-        this.spaces(e.state, 2, 0) +
-        this.spaces(e.countryCode, 80, 0) +
+        this.spaces("", 0, 35) + //last name 
+        // this.spaces(e.lastName, 35, 0) +
+        this.spaces("", 0, 5) +
+        this.spaces("", 0, 40) + //street
+        // this.spaces(e.street, 40, 0) +
+        this.spaces("", 0, 40) + //address 2
+        // this.spaces(e.address2, 40, 0) +
+        this.spaces("", 0, 40) + //city
+        // this.spaces(e.city, 40, 0) +
+        this.spaces("", 0, 2) + //state
+        // this.spaces(e.state, 2, 0) +
+        this.spaces("USA", 3, 0) + //countrycode
+        // this.spaces(e.countryCode, 80, 0) +
         this.spaces(e.zipcode, 6, 0) +
-        this.spaces("", 4, 0) +
-        this.spaces(e.phone, 10, 0) +
+        this.spaces("", 0, 4) +
+        this.spaces("", 0, 10) +
+        // this.spaces(e.phone, 10, 0) +
         this.spaces("", 0, 10) +
         this.spaces(e.email, 80, 0) +
         this.spaces((e.eventCode.slice(0, 6)), 10, 0) +
@@ -227,10 +246,11 @@ export class AdminComponent implements OnInit {
         this.spaces((this.convertDate(e.submissionDate)), 16, 0) +
         this.spaces("", 0, 17) +
         this.spaces("", 0, 6) +
-        this.carSpaces(e.carEntry1, e.carEntry2, e.carEntry3) +
+        this.spaces(e.carEntry1, 15, 0) + //car entry 1
+        // this.carSpaces(e.carEntry1, e.carEntry2, e.carEntry3) +
         this.spaces("2019", 4, 0) +
-        "P" +
-        "EN" +
+        this.spaces("P", 1, 0) +
+        this.spaces("EN", 2, 0) +
         this.questionSpaces("1077", e.nextCarDate) +
         this.spaces("", 0, 24) +
         this.questionSpaces("0799", e.emailOptIn) +
@@ -261,7 +281,8 @@ export class AdminComponent implements OnInit {
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
-        "\n"
+        "\n";
+        console.log("Request Count: " + this.spaceCount);
     });
   }
 
@@ -290,6 +311,7 @@ export class AdminComponent implements OnInit {
       }
       retStr = str + spaces;
     }
+    this.spaceCount = retStr.length + this.spaceCount;
     return retStr
   }
 
