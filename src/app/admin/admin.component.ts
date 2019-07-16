@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventSubmission } from '../models/event-submission';
 import * as moment from 'moment';
-import {MatPaginator, MatSort, MatTableDataSource, PageEvent, MatTable} from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, PageEvent, MatTable } from '@angular/material';
 
 
 
@@ -67,7 +67,7 @@ export class AdminComponent implements OnInit {
       this.passErr = "Incorrect Password";
     }
 
-    if (userValid == true && passValid == true){
+    if (userValid == true && passValid == true) {
       this.passBlock = false;
     } else {
       this.displayLoginError = true;
@@ -126,7 +126,7 @@ export class AdminComponent implements OnInit {
             this.eventData.push(f);
           })
           this.eventDataCount = (this.eventData.length).toString();
-          while (this.eventDataCount.length < 10){
+          while (this.eventDataCount.length < 10) {
             this.eventDataCount = "0" + this.eventDataCount;
           }
           this.dataSource = new MatTableDataSource<EventSubmission>(this.eventData);
@@ -182,7 +182,7 @@ export class AdminComponent implements OnInit {
     this.spaceCount = 0;
     let currentDate = new Date();
     let date = this.convertDate(currentDate);
-    this.ts = this.ts + 
+    this.ts = this.ts +
       this.spaces("H", 1, 0) +
       this.spaces("0000000297", 20, 0) +
       this.spaces(date, 16, 0) +
@@ -190,8 +190,8 @@ export class AdminComponent implements OnInit {
       this.spaces("", 0, 48) +
       this.spaces(this.reportEmail, 80, 0) +
       this.spaces("", 0, 1054);
-      console.log("Header Count: " + this.spaceCount);
-      this.ts = this.ts + "\n"
+    console.log("Header Count: " + this.spaceCount);
+    this.ts = this.ts + "\n"
   }
 
   createFooterRecord() {
@@ -205,15 +205,16 @@ export class AdminComponent implements OnInit {
       this.spaces("", 0, 50) +
       this.spaces(this.eventDataCount, 10, 0) +
       this.spaces("", 0, 1124)
-      console.log("Footer Count: " + this.spaceCount);
+    console.log("Footer Count: " + this.spaceCount);
+    this.ts = this.ts + "\n"
   }
 
   createFulfillmentRequestRecords() {
     this.eventData.forEach(e => {
       this.spaceCount = 0;
-      this.ts = this.ts + 
+      this.ts = this.ts +
         this.spaces("FD", 3, 0) +
-        this.spaces("I", 1, 0 )+
+        this.spaces("I", 1, 0) +
         this.spaces("", 0, 11) +
         this.spaces("", 0, 6) +
         this.spaces("", 0, 40) +
@@ -252,7 +253,6 @@ export class AdminComponent implements OnInit {
         this.spaces("P", 1, 0) +
         this.spaces("EN", 2, 0) +
         this.questionSpaces("1077", e.nextCarDate) +
-        this.spaces("", 0, 24) +
         this.questionSpaces("0799", e.emailOptIn) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
@@ -281,8 +281,9 @@ export class AdminComponent implements OnInit {
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
         this.spaces("", 0, 24) +
+        this.spaces("", 0, 24) +
         "\n";
-        console.log("Request Count: " + this.spaceCount);
+      console.log("Request Count: " + this.spaceCount);
     });
   }
 
@@ -322,23 +323,23 @@ export class AdminComponent implements OnInit {
     let tempCar1 = car1;
     let tempCar2 = "";
     let tempCar3 = "";
-    if (car2 == "null"){
+    if (car2 == "null") {
       tempCar2 = "";
     } else {
       tempCar2 = car2;
       carCount++;
     }
-    if (car3 == "null"){
+    if (car3 == "null") {
       tempCar3 = "";
     } else {
       tempCar3 = car3;
       carCount++;
     }
 
-    if (carCount == 1){
+    if (carCount == 1) {
       str = tempCar1;
       retStr = this.spaces(str, 15, 0);
-    } else if (carCount == 2){
+    } else if (carCount == 2) {
       str = tempCar1 + " " + tempCar2;
       retStr = this.spaces(str, 15, 0);
     } else {
@@ -350,8 +351,13 @@ export class AdminComponent implements OnInit {
   }
 
   questionSpaces(question: string, answer) {
-    let str = question + answer;
-    return this.spaces(str, 24, 0);
+    if (answer.trim() == "") {
+      let str = "";
+      return this.spaces(str, 24, 0);
+    } else {
+      let str = question + answer;
+      return this.spaces(str, 24, 0);
+    }
   }
 
 
