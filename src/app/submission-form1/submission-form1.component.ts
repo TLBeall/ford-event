@@ -41,8 +41,10 @@ export class SubmissionForm1Component implements OnInit {
       'city': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
       'zipcode': new FormControl(null, [Validators.required, Validators.pattern('^[0-9]{5}$')]),
-      'phone': new FormControl(null, [Validators.required, Validators.pattern('^\\(?[0-9]{3}\\)?-?\\.?[0-9]{3}-?\\.?[0-9]{4}$')]),
-      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'phone': new FormControl(null, Validators.pattern('^\\(?[0-9]{3}\\)? ?-?\\.?[0-9]{3}-? ?\\.?[0-9]{4}$')),
+      //'phone': new FormControl(null, [Validators.required, Validators.pattern('^\\(?[0-9]{3}\\)?-?\\.?[0-9]{3}-?\\.?[0-9]{4}$')]),
+      'email': new FormControl(null, Validators.email),
+      //'email': new FormControl(null, [Validators.required, Validators.email]),
       'age': new FormControl(null),
       'cars': new FormControl(null, [Validators.required, this.carCount.bind(this)]),
       'timeFrame': new FormControl("E", Validators.required),
@@ -50,8 +52,8 @@ export class SubmissionForm1Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Roanoke';
-    this.eventData.eventCode = '501076001';
+    this.eventData.eventLocation = 'Lynchburg';
+    this.eventData.eventCode = '501228001';
     this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
@@ -129,8 +131,11 @@ export class SubmissionForm1Component implements OnInit {
         alts.forEach(element => {
           this.eventData.phone = this.eventData.phone.replace(element, '');
         });
+        if (this.eventData.phone == null || this.eventData.phone == ""){
+          this.eventData.phone = "0";
+        }
       } catch (error) {
-        this.eventData.phone = "";
+        this.eventData.phone = "0";
       }
       this.eventData.email = this.signupForm.value['email'];
       let carArr = this.signupForm.value['cars'];
