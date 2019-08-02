@@ -123,12 +123,16 @@ export class AdminComponent implements OnInit {
             f.vendorID = e.VendorID;
             f.zipcode = e.Zipcode;
             f.emailOptIn = e.EmailOptIn;
+            if (f.phone == "0"){
+              f.phone = "";
+            }
             this.eventData.push(f);
           })
           this.eventDataCount = (this.eventData.length).toString();
           while (this.eventDataCount.length < 10) {
             this.eventDataCount = "0" + this.eventDataCount;
           }
+
           this.dataSource = new MatTableDataSource<EventSubmission>(this.eventData);
           this.dataSource.paginator = this.paginator;
           this.eventDataLoaded = true;
@@ -218,26 +222,25 @@ export class AdminComponent implements OnInit {
         this.spaces("", 0, 11) +
         this.spaces("", 0, 6) +
         this.spaces("", 0, 40) +
-        this.spaces("", 0, 30) + //first name 
-        // this.spaces(e.firstName, 30, 0) +
+       // this.spaces("", 0, 30) + //first name 
+        this.spaces(e.firstName, 30, 0) +
         this.spaces("", 0, 1) +
-        this.spaces("", 0, 35) + //last name 
-        // this.spaces(e.lastName, 35, 0) +
+        //this.spaces("", 0, 35) + //last name 
+        this.spaces(e.lastName, 35, 0) +
         this.spaces("", 0, 5) +
-        this.spaces("", 0, 40) + //street
-        // this.spaces(e.street, 40, 0) +
-        this.spaces("", 0, 40) + //address 2
-        // this.spaces(e.address2, 40, 0) +
-        this.spaces("", 0, 40) + //city
-        // this.spaces(e.city, 40, 0) +
-        this.spaces("", 0, 2) + //state
-        // this.spaces(e.state, 2, 0) +
+        //this.spaces("", 0, 40) + //street
+        this.spaces(e.street, 40, 0) +
+        //this.spaces("", 0, 40) + //address 2
+        this.spaces(e.address2, 40, 0) +
+        //this.spaces("", 0, 40) + //city
+        this.spaces(e.city, 40, 0) +
+        //this.spaces("", 0, 2) + //state
+        this.spaces(e.state, 2, 0) +
         this.spaces("USA", 3, 0) + //countrycode
-        // this.spaces(e.countryCode, 80, 0) +
         this.spaces(e.zipcode, 6, 0) +
         this.spaces("", 0, 4) +
-        this.spaces("", 0, 10) +
-        // this.spaces(e.phone, 10, 0) +
+        //this.spaces("", 0, 10) + //phone home
+        this.spaces(e.phone, 10, 0) +
         this.spaces("", 0, 10) +
         this.spaces(e.email, 80, 0) +
         this.spaces((e.eventCode.slice(0, 6)), 10, 0) +
