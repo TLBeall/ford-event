@@ -23,10 +23,12 @@ export class AdminComponent implements OnInit {
   eventCodeInput: string = "";
 
   eventData: EventSubmission[];
+  textFileData: EventSubmission[];
   eventRecord: EventSubmission;
   ts = ""; //Text String
   eventDataLoaded = false;
   eventDataCount;
+  textDataCount: String;
   reportEmail = "";
   spaceCount: number = 0;
 
@@ -93,6 +95,7 @@ export class AdminComponent implements OnInit {
     let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + eventCode;
     let rawData;
     this.eventData = [];
+    this.textFileData = [];
 
     try {
       fetch(url, { method: 'GET' })
@@ -123,16 +126,92 @@ export class AdminComponent implements OnInit {
             f.vendorID = e.VendorID;
             f.zipcode = e.Zipcode;
             f.emailOptIn = e.EmailOptIn;
-            if (f.phone == "0"){
+
+            //SET NULLS
+            if (f.phone == "0") {
               f.phone = "";
             }
+            if (f.carEntry2 == "null") {
+              f.carEntry2 = "";
+            }
+            if (f.carEntry3 == "null") {
+              f.carEntry3 = "";
+            }
             this.eventData.push(f);
+            this.textFileData.push(f);
+
+            //SET ADDITIONAL ENTRIES FOR MULTI-CAR SELECTIONS
+            //CAR 2
+            if (f.carEntry2 != "") {
+              let g = new EventSubmission();
+              g.userID = e.UserID;
+              g.address2 = e.Address2;
+              g.carEntry1 = e.CarEntry2;
+              g.carEntry2 = "";
+              g.carEntry3 = "";
+              g.city = e.City;
+              g.countryCode = e.CountryCode;
+              g.email = e.Email;
+              g.eventCode = this.convertEventCode(e.EventCode);
+              g.eventLocation = e.EventLocation;
+              g.firstName = e.FirstName;
+              g.lastName = e.LastName;
+              g.nextCarDate = e.NextCarDate;
+              g.phone = e.Phone.toString();
+              g.state = e.State;
+              g.street = e.Street;
+              g.submissionDate = e.SubmissionDate;
+              g.vendorID = e.VendorID;
+              g.zipcode = e.Zipcode;
+              g.emailOptIn = e.EmailOptIn;
+
+              //SET NULLS
+              if (g.phone == "0") {
+                g.phone = "";
+              }
+              this.textFileData.push(g);
+            }
+
+            //CAR 3
+            if (f.carEntry3 != "") {
+              let g = new EventSubmission();
+              g.userID = e.UserID;
+              g.address2 = e.Address2;
+              g.carEntry1 = e.CarEntry3;
+              g.carEntry2 = "";
+              g.carEntry3 = "";
+              g.city = e.City;
+              g.countryCode = e.CountryCode;
+              g.email = e.Email;
+              g.eventCode = this.convertEventCode(e.EventCode);
+              g.eventLocation = e.EventLocation;
+              g.firstName = e.FirstName;
+              g.lastName = e.LastName;
+              g.nextCarDate = e.NextCarDate;
+              g.phone = e.Phone.toString();
+              g.state = e.State;
+              g.street = e.Street;
+              g.submissionDate = e.SubmissionDate;
+              g.vendorID = e.VendorID;
+              g.zipcode = e.Zipcode;
+              g.emailOptIn = e.EmailOptIn;
+
+              //SET NULLS
+              if (g.phone == "0") {
+                g.phone = "";
+              }
+              this.textFileData.push(g);
+            }
           })
-          this.eventDataCount = (this.eventData.length).toString();
-          while (this.eventDataCount.length < 10) {
-            this.eventDataCount = "0" + this.eventDataCount;
+
+          //SET COUNTERS FOR FRONT END AND FOR TEXT FILE
+          this.eventDataCount = this.eventData.length;
+          this.textDataCount = (this.textFileData.length).toString();
+          while (this.textDataCount.length < 10) {
+            this.textDataCount = "0" + this.textDataCount;
           }
 
+          //LOAD TABLE WITH DATA
           this.dataSource = new MatTableDataSource<EventSubmission>(this.eventData);
           this.dataSource.paginator = this.paginator;
           this.eventDataLoaded = true;
@@ -187,13 +266,13 @@ export class AdminComponent implements OnInit {
     let currentDate = new Date();
     let date = this.convertDate(currentDate);
     this.ts = this.ts +
-      this.spaces("H", 1, 0) +
-      this.spaces("0000000297", 20, 0) +
-      this.spaces(date, 16, 0) +
-      this.spaces("V2", 2, 0) +
-      this.spaces("", 0, 48) +
-      this.spaces(this.reportEmail, 80, 0) +
-      this.spaces("", 0, 1054);
+      this.spaces("H", 1) +
+      this.spaces("0000000297", 20) +
+      this.spaces(date, 16) +
+      this.spaces("V2", 2) +
+      this.spaces("", 48) +
+      this.spaces(this.reportEmail, 80) +
+      this.spaces("", 1054);
     console.log("Header Count: " + this.spaceCount);
     this.ts = this.ts + "\n"
   }
@@ -203,88 +282,87 @@ export class AdminComponent implements OnInit {
     let currentDate = new Date();
     let date = this.convertDate(currentDate);
     this.ts = this.ts +
-      this.spaces("T", 1, 0) +
-      this.spaces("0000000297", 20, 0) +
-      this.spaces(date, 16, 0) +
-      this.spaces("", 0, 50) +
-      this.spaces(this.eventDataCount, 10, 0) +
-      this.spaces("", 0, 1124)
+      this.spaces("T", 1) +
+      this.spaces("0000000297", 20) +
+      this.spaces(date, 16) +
+      this.spaces("", 50) +
+      this.spaces(this.textDataCount, 10) +
+      this.spaces("", 1124)
     console.log("Footer Count: " + this.spaceCount);
     this.ts = this.ts + "\n"
   }
 
   createFulfillmentRequestRecords() {
-    this.eventData.forEach(e => {
+    this.textFileData.forEach(e => {
       this.spaceCount = 0;
       this.ts = this.ts +
-        this.spaces("FD", 3, 0) +
-        this.spaces("I", 1, 0) +
-        this.spaces("", 0, 11) +
-        this.spaces("", 0, 6) +
-        this.spaces("", 0, 40) +
-       // this.spaces("", 0, 30) + //first name 
-        this.spaces(e.firstName, 30, 0) +
-        this.spaces("", 0, 1) +
+        this.spaces("FD", 3) +
+        this.spaces("I", 1) +
+        this.spaces("", 11) +
+        this.spaces("", 6) +
+        this.spaces("", 40) +
+        // this.spaces("", 0, 30) + //first name 
+        this.spaces(e.firstName, 30) +
+        this.spaces("", 1) +
         //this.spaces("", 0, 35) + //last name 
-        this.spaces(e.lastName, 35, 0) +
-        this.spaces("", 0, 5) +
+        this.spaces(e.lastName, 35) +
+        this.spaces("", 5) +
         //this.spaces("", 0, 40) + //street
-        this.spaces(e.street, 40, 0) +
+        this.spaces(e.street, 40) +
         //this.spaces("", 0, 40) + //address 2
-        this.spaces(e.address2, 40, 0) +
+        this.spaces(e.address2, 40) +
         //this.spaces("", 0, 40) + //city
-        this.spaces(e.city, 40, 0) +
+        this.spaces(e.city, 40) +
         //this.spaces("", 0, 2) + //state
-        this.spaces(e.state, 2, 0) +
-        this.spaces("USA", 3, 0) + //countrycode
-        this.spaces(e.zipcode, 6, 0) +
-        this.spaces("", 0, 4) +
+        this.spaces(e.state, 2) +
+        this.spaces("USA", 3) + //countrycode
+        this.spaces(e.zipcode, 6) +
+        this.spaces("", 4) +
         //this.spaces("", 0, 10) + //phone home
-        this.spaces(e.phone, 10, 0) +
-        this.spaces("", 0, 10) +
-        this.spaces(e.email, 80, 0) +
-        this.spaces((e.eventCode.slice(0, 6)), 10, 0) +
-        this.spaces((e.eventCode.slice(7)), 3, 0) +
-        this.spaces("", 0, 50) +
-        this.spaces("", 0, 10) +
-        this.spaces((this.convertDate(e.submissionDate)), 16, 0) +
-        this.spaces("", 0, 17) +
-        this.spaces("", 0, 6) +
-        this.spaces(e.carEntry1, 15, 0) + //car entry 1
-        // this.carSpaces(e.carEntry1, e.carEntry2, e.carEntry3) +
-        this.spaces("2019", 4, 0) +
-        this.spaces("P", 1, 0) +
-        this.spaces("EN", 2, 0) +
+        this.spaces(e.phone, 10) +
+        this.spaces("", 10) +
+        this.spaces(e.email, 80) +
+        this.spaces((e.eventCode.slice(0, 6)), 10) +
+        this.spaces((e.eventCode.slice(7)), 3) +
+        this.spaces("", 50) +
+        this.spaces("", 10) +
+        this.spaces((this.convertDate(e.submissionDate)), 16) +
+        this.spaces("", 17) +
+        this.spaces("", 6) +
+        this.spaces(e.carEntry1, 15) + //car entry 1
+        this.spaces("2019", 4) +
+        this.spaces("P", 1) +
+        this.spaces("EN", 2) +
         this.questionSpaces("1077", e.nextCarDate) +
         this.questionSpaces("0799", e.emailOptIn) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
-        this.spaces("", 0, 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
+        this.spaces("", 24) +
         "\n";
       console.log("Request Count: " + this.spaceCount);
     });
@@ -297,7 +375,29 @@ export class AdminComponent implements OnInit {
   //Instructions for spaces:
   //To make raw spaces: this.spaces("", 0, N) where N is number of spaces
   //To make filler spaces: this.spaces("string", N, 0) where N is the defined as the total spaces for that part of the record
-  spaces(str: string, length: number, blankSpaces: number) {
+  // spaces(str: string, length: number, blankSpaces: number) {
+  //   let s = " ";
+  //   let spaces = "";
+  //   let retStr = "";
+
+  //   //If value is null
+  //   if (str == "null") {
+  //     retStr = s.repeat(length);
+  //   } else {
+  //     if (blankSpaces == 0) {
+  //       let strLength = str.length;
+  //       let diff = length - strLength;
+  //       spaces = s.repeat(diff);
+  //     } else {
+  //       spaces = s.repeat(blankSpaces);
+  //     }
+  //     retStr = str + spaces;
+  //   }
+  //   this.spaceCount = retStr.length + this.spaceCount;
+  //   return retStr
+  // }
+
+  spaces(str: String, length: number) {
     let s = " ";
     let spaces = "";
     let retStr = "";
@@ -306,60 +406,20 @@ export class AdminComponent implements OnInit {
     if (str == "null") {
       retStr = s.repeat(length);
     } else {
-      if (blankSpaces == 0) {
-        let strLength = str.length;
-        let diff = length - strLength;
-        spaces = s.repeat(diff);
-      } else {
-        spaces = s.repeat(blankSpaces);
-      }
-      retStr = str + spaces;
+      let diff = length - str.length;
+      retStr = str + s.repeat(diff);
     }
     this.spaceCount = retStr.length + this.spaceCount;
     return retStr
   }
 
-  carSpaces(car1: string, car2: string, car3: string) {
-    let str = "";
-    let retStr = "";
-    let carCount = 1;
-    let tempCar1 = car1;
-    let tempCar2 = "";
-    let tempCar3 = "";
-    if (car2 == "null") {
-      tempCar2 = "";
-    } else {
-      tempCar2 = car2;
-      carCount++;
-    }
-    if (car3 == "null") {
-      tempCar3 = "";
-    } else {
-      tempCar3 = car3;
-      carCount++;
-    }
-
-    if (carCount == 1) {
-      str = tempCar1;
-      retStr = this.spaces(str, 15, 0);
-    } else if (carCount == 2) {
-      str = tempCar1 + " " + tempCar2;
-      retStr = this.spaces(str, 15, 0);
-    } else {
-      str = tempCar1 + " " + tempCar2 + " " + tempCar3;
-      retStr = this.spaces(str, 15, 0);
-    }
-
-    return retStr;
-  }
-
   questionSpaces(question: string, answer) {
     if (answer.trim() == "") {
       let str = "";
-      return this.spaces(str, 24, 0);
+      return this.spaces(str, 24);
     } else {
       let str = question + answer;
-      return this.spaces(str, 24, 0);
+      return this.spaces(str, 24);
     }
   }
 
