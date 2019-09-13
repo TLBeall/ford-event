@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AdminComponent } from './admin/admin.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
+import { SubmissionForm2Component } from './submission-form2/submission-form2.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,8 @@ const routes: Routes = [
 
   // {path: 'baltimore', component: SubmissionForm1Component },
   {path: 'admin', component: AdminComponent },
+  {path: 'charlottesville', component: SubmissionForm1Component },
+  {path: 'oceancity', component: SubmissionForm2Component },
 
     //Keep this path last since it is PageNotFound
   {path: '**', component: PageNotFoundComponent} //Setup for if URL does not match

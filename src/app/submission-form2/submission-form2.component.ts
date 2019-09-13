@@ -6,13 +6,12 @@ import { StateList } from '../models/state-list';
 import { EventSubmission } from '../models/event-submission';
 import * as moment from 'moment';
 import { MatCheckbox } from '@angular/material';
-
 @Component({
-  selector: 'app-submission-form1',
-  templateUrl: './submission-form1.component.html',
-  styleUrls: ['./submission-form1.component.scss']
+  selector: 'app-submission-form2',
+  templateUrl: './submission-form2.component.html',
+  styleUrls: ['./submission-form2.component.scss']
 })
-export class SubmissionForm1Component implements OnInit {
+export class SubmissionForm2Component implements OnInit {
   eventData: EventSubmission;
   carList: CarList;
   stateList: StateList;
@@ -52,8 +51,8 @@ export class SubmissionForm1Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Charlottesville';
-    this.eventData.eventCode = '501174002';
+    this.eventData.eventLocation = 'Ocean City';
+    this.eventData.eventCode = '501258001';
     this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
@@ -243,105 +242,3 @@ export class SubmissionForm1Component implements OnInit {
   //     .catch(error => console.error('error:', error));
   // }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export class Homepage1Component implements OnInit {
-//   // emailControl = new FormControl('', [Validators.required, Validators.email]);
-//   // phoneControl = new FormControl('', Validators.required);
-//   stateControl = new FormControl('', Validators.required);
-//   cars = new FormControl();
-//   carList: string[] = ['2020 Explorer', 'C-MAX Hybrid', 'EcoSport', 'Edge', 'Escape', 'Expedition', 'Explorer', 'F-150', 'Fiesta', 'Flex', 'Focus', 'Focus Electric', 'Focus ST', 'Ford GT', 'Ford Performance Cars', 'Ford Performance Trucks', 'Fusion', 'Fusion Energi', 'Fusion Hubrid', 'Mustang', 'Ranger', 'Raptor', 'Super Duty(F-250)', 'Taurus', 'Transit', 'Transit Connect', 'Transit Connect Wagon'];
-//   states: string[] = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
-//   completedPopup = false;
-//   theCars: string = "";
-//   nameMessage: string = "";
-//   // nameRow = false;
-//   phone = {
-//     number: 0,
-//     invalid: false,
-//     errorMessage: ''
-//   };
-
-// zip = "";
-
-//   constructor() { }
-
-//   ngOnInit() {
-
-//   }
-
-//   checkZip(){
-//     let temp
-//   }
-
-//   modalCancel() {
-//     this.completedPopup = false;
-//   }
-
-//   testPhone(value){
-//     let phoneString = value.toString();
-//     let regex = '[0-9]+';
-//     let match = phoneString.match(regex);
-//     if (match.length == 10){
-//       this.phone.number = parseInt(match);
-//       this.phone.invalid = false;
-//       this.phone.errorMessage = '';
-//     } else {
-//       this.phone.invalid = true;
-//       this.phone.errorMessage = 'Please Enter a Valid Phone Number';
-//     }
-//   }
-
-//   submitForm(form: NgForm) {
-//     console.log(form);
-//     this.theCars = "";
-//     // let tempName = firstName;
-//     this.completedPopup = true;
-//     let tes = this.cars;
-//     // this.nameMessage = "Thanks for your interest " + firstName + "!";
-//     // this.cars.value.forEach((e, index) => {
-//     //   if (index == 0){
-//     //     this.theCars = e;
-//     //   } else if (index == this.cars.value.length-1) {
-//     //     this.theCars = this.theCars + " and " + e;
-//     //   } else {
-//     //     this.theCars = this.theCars + ", " + e;
-//     //   }
-//     // });
-//     // setTimeout(() => {
-//     //   // this.router.navigate(['lri/new']);
-//     //   this.completedPopup = false;
-//     //   // this.resetFile();
-//     //   // this.LRIArray = [];
-//     //   // this.loadDefaultValues();
-//     // }, 4500)
-//   }
-
-//   // getErrorMessage() {
-//   //       return this.emailControl.hasError('required') ? 'You must enter a value' :
-//   //       this.emailControl.hasError('email') ? 'Not a valid email' : '';
-//   //     }
-
-// }
