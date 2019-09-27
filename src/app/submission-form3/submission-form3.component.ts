@@ -7,11 +7,11 @@ import { EventSubmission } from '../models/event-submission';
 import * as moment from 'moment';
 import { MatCheckbox } from '@angular/material';
 @Component({
-  selector: 'app-submission-form2',
-  templateUrl: './submission-form2.component.html',
-  styleUrls: ['./submission-form2.component.scss']
+  selector: 'app-submission-form3',
+  templateUrl: './submission-form3.component.html',
+  styleUrls: ['./submission-form3.component.scss']
 })
-export class SubmissionForm2Component implements OnInit {
+export class SubmissionForm3Component implements OnInit {
   eventData: EventSubmission;
   carList: CarList;
   stateList: StateList;
@@ -51,8 +51,8 @@ export class SubmissionForm2Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Tidewater';
-    this.eventData.eventCode = '501279001';
+    this.eventData.eventLocation = 'Richmond';
+    this.eventData.eventCode = '501277001';
     this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";

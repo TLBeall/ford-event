@@ -19,6 +19,7 @@ import { AdminComponent } from './admin/admin.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
 import { SubmissionForm2Component } from './submission-form2/submission-form2.component';
+import { SubmissionForm3Component } from './submission-form3/submission-form3.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SubmissionForm2Component } from './submission-form2/submission-form2.co
     AdminComponent,
     HomepageComponent,
     SubmissionForm1Component,
-    SubmissionForm2Component
+    SubmissionForm2Component,
+    SubmissionForm3Component
   ],
   imports: [
     BrowserModule,
