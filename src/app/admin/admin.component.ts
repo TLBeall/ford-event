@@ -31,6 +31,9 @@ export class AdminComponent implements OnInit {
   textDataCount: String;
   reportEmail = "";
   spaceCount: number = 0;
+  errorCount = 0;
+  errorArray = [];
+  errorString = "";
 
   displayedColumns = ['userID', 'firstName', 'lastName', 'city', 'state', 'carEntry1', 'carEntry2'];
   dataSource: MatTableDataSource<EventSubmission>;
@@ -227,34 +230,6 @@ export class AdminComponent implements OnInit {
     return eventCode;
   }
 
-
-  dynamicDownloadTxt() {
-    this.createTextString();
-    let fName = "Event_" + this.eventData[0].eventCode;
-
-    this.dyanmicDownloadByHtmlTag({
-      fileName: fName,
-      text: this.ts
-    });
-    this.ts = "";
-  }
-
-  dyanmicDownloadByHtmlTag(arg: {
-    fileName: string,
-    text: string
-  }) {
-    if (!this.setting.element.dynamicDownload) {
-      this.setting.element.dynamicDownload = document.createElement('a');
-    }
-    const element = this.setting.element.dynamicDownload;
-    const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
-    element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
-    element.setAttribute('download', arg.fileName);
-
-    var event = new MouseEvent("click");
-    element.dispatchEvent(event);
-  }
-
   createTextString() {
     this.createHeaderRecord();
     this.createFulfillmentRequestRecords();
@@ -293,7 +268,8 @@ export class AdminComponent implements OnInit {
   }
 
   createFulfillmentRequestRecords() {
-    this.textFileData.forEach(e => {
+    this.textFileData.forEach((e, index) => {
+      try {
       this.spaceCount = 0;
       this.ts = this.ts +
         this.spaces("FD", 3) +
@@ -301,24 +277,17 @@ export class AdminComponent implements OnInit {
         this.spaces("", 11) +
         this.spaces("", 6) +
         this.spaces("", 40) +
-        // this.spaces("", 0, 30) + //first name 
         this.spaces(e.firstName, 30) +
         this.spaces("", 1) +
-        //this.spaces("", 0, 35) + //last name 
         this.spaces(e.lastName, 35) +
         this.spaces("", 5) +
-        //this.spaces("", 0, 40) + //street
         this.spaces(e.street, 40) +
-        //this.spaces("", 0, 40) + //address 2
         this.spaces(e.address2, 40) +
-        //this.spaces("", 0, 40) + //city
         this.spaces(e.city, 40) +
-        //this.spaces("", 0, 2) + //state
         this.spaces(e.state, 2) +
         this.spaces("USA", 3) + //countrycode
         this.spaces(e.zipcode, 6) +
         this.spaces("", 4) +
-        //this.spaces("", 0, 10) + //phone home
         this.spaces(e.phone, 10) +
         this.spaces("", 10) +
         this.spaces(e.email, 80) +
@@ -364,38 +333,72 @@ export class AdminComponent implements OnInit {
         this.spaces("", 24) +
         this.spaces("", 24) +
         "\n";
-      console.log("Request Count: " + this.spaceCount);
+      //console.log("Request Count: " + this.spaceCount);
+      } catch (err) {
+        this.errorCount += 1;
+        let errorObj = JSON.stringify(e);
+        this.errorString = this.errorString + "ERROR AT INDEX --- " + index + "\n";
+        this.errorString = this.errorString + "ERROR OBJECT:" + "\n";
+        this.errorString = this.errorString + errorObj + "\n";
+        this.errorString = this.errorString + "\n";
+        console.log("ERROR AT INDEX: " + index);
+        console.log("ERROR OBJECT: " + errorObj);
+      }
     });
+  }
+
+
+
+  dynamicDownloadTxt() {
+    this.createTextString();
+    let fName = "Event_" + this.eventData[0].eventCode;
+
+    this.dyanmicDownloadByHtmlTag({
+      fileName: fName,
+      text: this.ts
+    });
+    this.ts = "";
+
+    if (this.errorCount > 0){
+      this.generateErrorFile();
+    }
+  }
+
+  dyanmicDownloadByHtmlTag(arg: {
+    fileName: string,
+    text: string
+  }) {
+    if (!this.setting.element.dynamicDownload) {
+      this.setting.element.dynamicDownload = document.createElement('a');
+    }
+    const element = this.setting.element.dynamicDownload;
+    const fileType = arg.fileName.indexOf('.json') > -1 ? 'text/json' : 'text/plain';
+    element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(arg.text)}`);
+    element.setAttribute('download', arg.fileName);
+
+    var event = new MouseEvent("click");
+    element.dispatchEvent(event);
+  }
+
+  generateErrorFile(){
+    let fName =  "Error_File_" + this.eventData[0].eventCode;
+
+    if (!this.setting.element.dynamicDownload) {
+      this.setting.element.dynamicDownload = document.createElement('a');
+    }
+    const element = this.setting.element.dynamicDownload;
+    const fileType = 'text/plain';
+    element.setAttribute('href', `data:${fileType};charset=utf-8,${encodeURIComponent(this.errorString)}`);
+    element.setAttribute('download', fName);
+
+    var event = new MouseEvent("click");
+    element.dispatchEvent(event);
+    this.errorString = "";
   }
 
   convertDate(date) {
     return moment(date).format('L');
   }
-
-  //Instructions for spaces:
-  //To make raw spaces: this.spaces("", 0, N) where N is number of spaces
-  //To make filler spaces: this.spaces("string", N, 0) where N is the defined as the total spaces for that part of the record
-  // spaces(str: string, length: number, blankSpaces: number) {
-  //   let s = " ";
-  //   let spaces = "";
-  //   let retStr = "";
-
-  //   //If value is null
-  //   if (str == "null") {
-  //     retStr = s.repeat(length);
-  //   } else {
-  //     if (blankSpaces == 0) {
-  //       let strLength = str.length;
-  //       let diff = length - strLength;
-  //       spaces = s.repeat(diff);
-  //     } else {
-  //       spaces = s.repeat(blankSpaces);
-  //     }
-  //     retStr = str + spaces;
-  //   }
-  //   this.spaceCount = retStr.length + this.spaceCount;
-  //   return retStr
-  // }
 
   spaces(str: String, length: number) {
     let s = " ";

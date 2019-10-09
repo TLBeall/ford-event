@@ -20,6 +20,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
 import { SubmissionForm2Component } from './submission-form2/submission-form2.component';
 import { SubmissionForm3Component } from './submission-form3/submission-form3.component';
+import { SubmissionForm4Component } from './submission-form4/submission-form4.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { SubmissionForm3Component } from './submission-form3/submission-form3.co
     HomepageComponent,
     SubmissionForm1Component,
     SubmissionForm2Component,
-    SubmissionForm3Component
+    SubmissionForm3Component,
+    SubmissionForm4Component
   ],
   imports: [
     BrowserModule,

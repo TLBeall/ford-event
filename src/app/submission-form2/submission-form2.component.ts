@@ -51,8 +51,8 @@ export class SubmissionForm2Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Tidewater';
-    this.eventData.eventCode = '501279001';
+    this.eventData.eventLocation = 'Greentop';
+    this.eventData.eventCode = '501281001';
     this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
@@ -127,10 +127,7 @@ export class SubmissionForm2Component implements OnInit {
       }
       try {
         this.eventData.phone = (this.signupForm.value['phone']).toString();
-        let alts = ['-', '.', ' ', '(', ')'];
-        alts.forEach(element => {
-          this.eventData.phone = this.eventData.phone.replace(element, '');
-        });
+        this.eventData.phone = this.eventData.phone.replace(/\.|\(|\)| |-/g, '');
         if (this.eventData.phone == null || this.eventData.phone == ""){
           this.eventData.phone = "0";
         }

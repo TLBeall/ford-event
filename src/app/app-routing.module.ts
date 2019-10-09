@@ -7,6 +7,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
 import { SubmissionForm2Component } from './submission-form2/submission-form2.component';
 import { SubmissionForm3Component } from './submission-form3/submission-form3.component';
+import { SubmissionForm4Component } from './submission-form4/submission-form4.component';
 
 
 
@@ -16,8 +17,9 @@ const routes: Routes = [
 
   // {path: 'baltimore', component: SubmissionForm1Component },
   {path: 'admin', component: AdminComponent },
-  {path: 'neptune', component: SubmissionForm2Component },
-  {path: 'statefair', component: SubmissionForm3Component },
+  {path: 'greentop', component: SubmissionForm2Component },
+  {path: 'annapolis', component: SubmissionForm3Component },
+  {path: 'statefair', component: SubmissionForm4Component },
 
     //Keep this path last since it is PageNotFound
   {path: '**', component: PageNotFoundComponent} //Setup for if URL does not match
