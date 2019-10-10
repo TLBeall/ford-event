@@ -17,9 +17,9 @@ const routes: Routes = [
 
   // {path: 'baltimore', component: SubmissionForm1Component },
   {path: 'admin', component: AdminComponent },
-  {path: 'greentop', component: SubmissionForm2Component },
-  {path: 'annapolis', component: SubmissionForm3Component },
-  {path: 'statefair', component: SubmissionForm4Component },
+  {path: 'komen', component: SubmissionForm2Component },
+  {path: 'uvavsduke', component: SubmissionForm3Component },
+  //{path: 'statefair', component: SubmissionForm4Component },
 
     //Keep this path last since it is PageNotFound
   {path: '**', component: PageNotFoundComponent} //Setup for if URL does not match

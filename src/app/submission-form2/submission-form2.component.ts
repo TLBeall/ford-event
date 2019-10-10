@@ -51,8 +51,8 @@ export class SubmissionForm2Component implements OnInit {
     });
 
     this.eventData = new EventSubmission();
-    this.eventData.eventLocation = 'Greentop';
-    this.eventData.eventCode = '501281001';
+    this.eventData.eventLocation = 'Columbia';
+    this.eventData.eventCode = '501286001';
     this.eventData.vendorID = '501076';
     this.eventData.submissionDate = moment(currentDate).format('YYYY-MM-DD');
     this.eventData.firstName = "";
