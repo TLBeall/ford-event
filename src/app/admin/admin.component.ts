@@ -95,7 +95,7 @@ export class AdminComponent implements OnInit {
   }
 
   fireGetAPI(eventCode: string) {
-    let url = "https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/GetComplete/fordeventdata/" + eventCode;
+    let url = "https://wqbjr541sc.execute-api.us-east-1.amazonaws.com/dev/eventmultiusersubmission/" + eventCode;
     let rawData;
     this.eventData = [];
     this.textFileData = [];
@@ -109,26 +109,26 @@ export class AdminComponent implements OnInit {
         .then(data => {
           rawData.forEach(e => {
             let f = new EventSubmission();
-            f.userID = e.UserID;
-            f.address2 = e.Address2;
-            f.carEntry1 = e.CarEntry1;
-            f.carEntry2 = e.CarEntry2;
-            f.carEntry3 = e.CarEntry3;
-            f.city = e.City;
-            f.countryCode = e.CountryCode;
-            f.email = e.Email;
-            f.eventCode = this.convertEventCode(e.EventCode);
-            f.eventLocation = e.EventLocation;
-            f.firstName = e.FirstName;
-            f.lastName = e.LastName;
-            f.nextCarDate = e.NextCarDate;
-            f.phone = e.Phone.toString();
-            f.state = e.State;
-            f.street = e.Street;
-            f.submissionDate = e.SubmissionDate;
-            f.vendorID = e.VendorID;
-            f.zipcode = e.Zipcode;
-            f.emailOptIn = e.EmailOptIn;
+            f.userID = e._id;
+            f.address2 = e.address2;
+            f.carEntry1 = e.carEntry1;
+            f.carEntry2 = e.carEntry2;
+            f.carEntry3 = e.carEntry3;
+            f.city = e.city;
+            f.countryCode = e.countryCode;
+            f.email = e.email;
+            f.eventCode = this.convertEventCode(e.eventCode.toString());
+            f.eventLocation = e.eventLocation;
+            f.firstName = e.firstName;
+            f.lastName = e.lastName;
+            f.nextCarDate = e.nextCarDate;
+            f.phone = e.phone.toString();
+            f.state = e.state;
+            f.street = e.street;
+            f.submissionDate = e.submissionDate;
+            f.vendorID = e.vendorID.toString();
+            f.zipcode = e.zipcode.toString();
+            f.emailOptIn = e.emailOptIn;
 
             //SET NULLS
             if (f.phone == "0") {
@@ -147,26 +147,26 @@ export class AdminComponent implements OnInit {
             //CAR 2
             if (f.carEntry2 != "") {
               let g = new EventSubmission();
-              g.userID = e.UserID;
-              g.address2 = e.Address2;
-              g.carEntry1 = e.CarEntry2;
+              g.userID = e.userID;
+              g.address2 = e.address2;
+              g.carEntry1 = e.carEntry2;
               g.carEntry2 = "";
               g.carEntry3 = "";
-              g.city = e.City;
-              g.countryCode = e.CountryCode;
-              g.email = e.Email;
-              g.eventCode = this.convertEventCode(e.EventCode);
-              g.eventLocation = e.EventLocation;
-              g.firstName = e.FirstName;
-              g.lastName = e.LastName;
-              g.nextCarDate = e.NextCarDate;
-              g.phone = e.Phone.toString();
-              g.state = e.State;
-              g.street = e.Street;
-              g.submissionDate = e.SubmissionDate;
-              g.vendorID = e.VendorID;
-              g.zipcode = e.Zipcode;
-              g.emailOptIn = e.EmailOptIn;
+              g.city = e.city;
+              g.countryCode = e.countryCode;
+              g.email = e.email;
+              g.eventCode = this.convertEventCode(e.eventCode.toString());
+              g.eventLocation = e.eventLocation;
+              g.firstName = e.firstName;
+              g.lastName = e.lastName;
+              g.nextCarDate = e.nextCarDate;
+              g.phone = e.phone.toString();
+              g.state = e.state;
+              g.street = e.street;
+              g.submissionDate = e.submissionDate;
+              g.vendorID = e.vendorID.toString();
+              g.zipcode = e.zipcode.toString();
+              g.emailOptIn = e.emailOptIn;
 
               //SET NULLS
               if (g.phone == "0") {
@@ -178,26 +178,26 @@ export class AdminComponent implements OnInit {
             //CAR 3
             if (f.carEntry3 != "") {
               let g = new EventSubmission();
-              g.userID = e.UserID;
-              g.address2 = e.Address2;
-              g.carEntry1 = e.CarEntry3;
+              g.userID = e.userID;
+              g.address2 = e.address2;
+              g.carEntry1 = e.carEntry3;
               g.carEntry2 = "";
               g.carEntry3 = "";
-              g.city = e.City;
-              g.countryCode = e.CountryCode;
-              g.email = e.Email;
-              g.eventCode = this.convertEventCode(e.EventCode);
-              g.eventLocation = e.EventLocation;
-              g.firstName = e.FirstName;
-              g.lastName = e.LastName;
-              g.nextCarDate = e.NextCarDate;
-              g.phone = e.Phone.toString();
-              g.state = e.State;
-              g.street = e.Street;
-              g.submissionDate = e.SubmissionDate;
-              g.vendorID = e.VendorID;
-              g.zipcode = e.Zipcode;
-              g.emailOptIn = e.EmailOptIn;
+              g.city = e.city;
+              g.countryCode = e.countryCode;
+              g.email = e.email;
+              g.eventCode = this.convertEventCode(e.eventCode.toString());
+              g.eventLocation = e.eventLocation;
+              g.firstName = e.firstName;
+              g.lastName = e.lastName;
+              g.nextCarDate = e.nextCarDate;
+              g.phone = e.phone.toString();
+              g.state = e.state;
+              g.street = e.street;
+              g.submissionDate = e.submissionDate;
+              g.vendorID = e.vendorID.toString();
+              g.zipcode = e.zipcode.toString();
+              g.emailOptIn = e.emailOptIn;
 
               //SET NULLS
               if (g.phone == "0") {
