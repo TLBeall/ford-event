@@ -162,7 +162,7 @@ export class SubmissionForm3Component implements OnInit {
 
 
   firePostAPI() {
-    fetch('https://nnt9lmwi2k.execute-api.us-east-1.amazonaws.com/Post1/fordeventdata', {
+    fetch('https://wqbjr541sc.execute-api.us-east-1.amazonaws.com/dev/eventusersubmission', {
       method: 'POST',
       body: JSON.stringify({
         eventLocation: "" + this.eventData.eventLocation,
