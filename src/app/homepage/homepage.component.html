@@ -1,3 +1,224 @@
-<p>
-  homepage works!
-</p>
+<div class="main_background">
+  <button (click)="toggleState()">Toggle</button>
+  <div *ngIf="eventSelectedState == false">
+    <div class="container">
+      <div class="row">
+      <div class="col-12 text-center">
+        <h4 class="pre_load_header">Event Selection</h4>
+      </div>
+    </div>
+      <br>
+      <div class="row justify-content-center" *ngFor="let event of eventList">
+        <div class="col-md-6 event_tile" (click)="loadForm(event)">
+          <mat-card class="mat-elevation-z4" matRipple>
+            <p class="text-center">{{event.name}}</p>
+            <p class="text-center">{{event.location}}</p>
+          </mat-card>
+          <br>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div id="fordLogo"></div>
+    <br>
+    <br>
+    <br>
+    <div class="col-12 text-center">
+      <a class="closingText" href="www.buyfordnow.com">www.BuyFordNow.com</a>
+      <p class="closingText">© 2019 Ford Motors. All Rights Reserved.</p>
+    </div>
+  </div>
+
+
+  <form [formGroup]="signupForm" (ngSubmit)="submitForm()" #f="ngForm" *ngIf="eventSelectedState == true">
+    <div id="fordLogo"></div>
+    <br>
+
+    <div class="container main_form">
+      <div class="row justify-content-center">
+        <div class="col-md-7 text-center pageTextBlock">
+          <br>
+          <h1>YES!</h1>
+          <p>Please send me the product info I'm looking for. And, if any
+            great offers come up that Ford Motor Company and the local
+            dealer think would be of interest, send those along too.</p>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>First Name *</mat-label>
+            <input matInput type="text" formControlName="firstName">
+            <mat-error class="test">Please Input a First Name</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Last Name *</mat-label>
+            <input matInput type="text" formControlName="lastName">
+            <mat-error>Please Input a Last Name</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Street Address *</mat-label>
+            <input matInput type="text" formControlName="street">
+            <mat-error>Please Input a Street Address</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Apartment/Building #</mat-label>
+            <input matInput type="number" formControlName="apt">
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>City *</mat-label>
+            <input matInput type="text" formControlName="city">
+            <mat-error>Please Input a City</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>State *</mat-label>
+            <mat-select type="select" formControlName="state">
+              <mat-option *ngFor="let state of stateList.states" [value]="state">
+                {{state.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error>Please Choose a State</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Zipcode *</mat-label>
+            <input matInput type="text" formControlName="zipcode">
+            <mat-error>Please Enter a Valid Zipcode</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input matInput type="text" formControlName="phone">
+            <mat-error>Please Enter a Valid Phone Number</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="fullWidth" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="text" formControlName="email">
+            <mat-error>Please Enter a Valid Email</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="row justify-content-center">
+          <div class="col-md-4">
+            <mat-form-field class="fullWidth" appearance="outline">
+              <mat-label>Age</mat-label>
+              <input matInput type="number" formControlName="age">
+            </mat-form-field>
+          </div>
+        </div> -->
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-7 text-center pageTextBlock">
+          <br>
+          <h6>Please send me information on the following Ford vehicle(s). You may select up to three.</h6>
+          <br>
+          <mat-form-field style="width: 80%;" appearance="outline">
+            <mat-label>Cars</mat-label>
+            <mat-select formControlName="cars" multiple>
+              <mat-option *ngFor="let car of carList.list" [value]="car">{{car.name}}</mat-option>
+            </mat-select>
+            <mat-error>{{carCountMessage}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-7 text-center pageTextBlock">
+          <br>
+          <h6>When do you plan to acquire your next vehicle?
+          </h6>
+          <mat-radio-group aria-label="Select an option" formControlName="timeFrame">
+            <mat-radio-button value="A">0-30 DAYS</mat-radio-button>
+            <mat-radio-button value="B">1-3 MONTHS</mat-radio-button>
+            <mat-radio-button value="C">4-6 MONTHS</mat-radio-button>
+            <mat-radio-button value="D">7+ MONTHS</mat-radio-button>
+            <mat-radio-button value="E">NO DEFINITE PLANS</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-md-7 text-center pageTextBlock">
+          <br>
+          <mat-checkbox formControlName="emailOptIn" #cb></mat-checkbox>
+          <p>Please email me communications including product information, offers, and incentives from Ford Motor
+            Company and the local dealer.</p>
+          <br>
+          <br>
+        </div>
+      </div>
+      <br>
+      <div class="btnContainer">
+        <div [ngClass]="this.signupForm.valid? 'empty': 'filled'">
+          <button id="submitBtn" mat-flat-button type="submit" color="primary">Submit</button>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="row justify-content-center">
+        <div class="col-12 text-center">
+          <a class="closingText" href="www.buyfordnow.com">www.BuyFordNow.com</a>
+          <p class="closingText">© 2019 Ford Motors. All Rights Reserved.</p>
+        </div>
+      </div>
+      <br>
+    </div>
+
+
+    <div id="modalBackground" *ngIf="completedPopup">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 offset-md-3">
+            <mat-card class="mat-elevation-z8 submitModalCard">
+              <div class="row">
+                <div class="col-12 cancelDiv">
+                  <button mat-icon-button id="modalCancelBtn" (click)="modalCancel()"><i
+                      class="material-icons">cancel</i></button>
+
+                </div>
+                <div class="col-12 bannerDiv">
+                </div>
+              </div>
+              <div class="row updateRow">
+                <div class="col-12 updatedDiv">
+                  <br>
+                  <p class="updatedMsg">{{submissionMessage}}</p>
+                  <p class="updatedMsg"><b>Do not close message box. Please bring to a representative to verify
+                      submission.</b></p>
+                  <br>
+                </div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

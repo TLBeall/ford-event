@@ -134,6 +134,9 @@ export class AdminComponent implements OnInit {
             if (f.phone == "0") {
               f.phone = "";
             }
+            if (f.carEntry1 == "null") {
+              f.carEntry1 = "";
+            }
             if (f.carEntry2 == "null") {
               f.carEntry2 = "";
             }

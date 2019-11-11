@@ -19,6 +19,8 @@ const routes: Routes = [
   {path: 'admin', component: AdminComponent },
   {path: 'komen', component: SubmissionForm2Component },
   {path: 'uvavsduke', component: SubmissionForm3Component },
+  {path: 'home', component: HomepageComponent },
+
   //{path: 'statefair', component: SubmissionForm4Component },
 
     //Keep this path last since it is PageNotFound
