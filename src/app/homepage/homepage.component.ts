@@ -33,22 +33,16 @@ export class HomepageComponent implements OnInit {
   @ViewChild('f') myForm;
   @ViewChild('cb') myCheckbox: MatCheckbox;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.eventList = [];
-    this.fireGetAPI();
-
-
-
+  constructor() {
 
   }
 
+  ngOnInit() {
+    this.eventList = [];
+    this.fireGetAPI().then(() => {
+      this.eventCountPageLoad();
+    });
 
-  loadForm(event: Event){
-    let currentDate = new Date();
-    this.carList = new CarList();
-    this.stateList = new StateList();
 
     this.signupForm = new FormGroup({
       'firstName': new FormControl(null, Validators.required),
@@ -67,6 +61,16 @@ export class HomepageComponent implements OnInit {
       'timeFrame': new FormControl("E", Validators.required),
       'emailOptIn': new FormControl(false)
     });
+
+
+  }
+
+
+  loadForm(event: Event) {
+    let currentDate = new Date();
+    this.carList = new CarList();
+    this.stateList = new StateList();
+
 
     this.eventData = new EventSubmission();
     this.eventData.eventLocation = event.location;
@@ -91,6 +95,19 @@ export class HomepageComponent implements OnInit {
     console.log(this.eventData.eventLocation);
     console.log(event);
     this.eventSelectedState = true;
+  }
+
+  eventCountPageLoad(){
+    if (this.eventList.length == 0){
+
+    } else if (this.eventList.length == 1){
+      console.log("FIRING SINGLE");
+      this.eventSelectedState = true;
+      this.loadForm(this.eventList[0]);
+    } else {
+      console.log("FIRING MULTI");
+      this.eventSelectedState = false;
+    }
   }
 
 
@@ -193,33 +210,34 @@ export class HomepageComponent implements OnInit {
     }
   }
 
-
   fireGetAPI() {
-    let url = "https://gcr300brvi.execute-api.us-east-1.amazonaws.com/dev/events/get/active";
-    let rawEventListData;
+    let promise = new Promise((resolve, reject) => {
 
-    fetch(url, { method: 'GET' })
-      .then(response => response.json())
-      .then(json => {
-        rawEventListData = json;
-      })
-      .then(data => {
-        rawEventListData.forEach(e => {
-          let f = new Event(
-            e._id,
-            e.name,
-            e.eventCode,
-            e.location,
-            e.active,
-            e.startDate,
-            e.endDate,
-            e.entryDate,
-            e.modifyDate
-          );
-          this.eventList.push(f);
-        })
-          .catch(error => console.error('ERROR:', error));
-      })
+      let url = "https://gcr300brvi.execute-api.us-east-1.amazonaws.com/dev/events/get/active";
+      let rawEventListData;
+
+      fetch(url, { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(e => {
+            let f = new Event(
+              e._id,
+              e.name,
+              e.eventCode,
+              e.location,
+              e.active,
+              e.startDate,
+              e.endDate,
+              e.entryDate,
+              e.modifyDate
+            );
+            this.eventList.push(f);
+            resolve();
+          })
+        })            
+        .catch(error => console.error('ERROR:', error));
+    })
+    return promise;
   }
 
 
