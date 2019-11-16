@@ -17,10 +17,7 @@ import * as moment from 'moment';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdminComponent } from './admin/admin.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { SubmissionForm1Component } from './submission-form1/submission-form1.component';
-import { SubmissionForm2Component } from './submission-form2/submission-form2.component';
-import { SubmissionForm3Component } from './submission-form3/submission-form3.component';
-import { SubmissionForm4Component } from './submission-form4/submission-form4.component';
+
 
 
 @NgModule({
@@ -28,11 +25,7 @@ import { SubmissionForm4Component } from './submission-form4/submission-form4.co
     AppComponent,
     PageNotFoundComponent,
     AdminComponent,
-    HomepageComponent,
-    SubmissionForm1Component,
-    SubmissionForm2Component,
-    SubmissionForm3Component,
-    SubmissionForm4Component
+    HomepageComponent
   ],
   imports: [
     BrowserModule,

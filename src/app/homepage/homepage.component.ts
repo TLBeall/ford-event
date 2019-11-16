@@ -61,8 +61,6 @@ export class HomepageComponent implements OnInit {
       'timeFrame': new FormControl("E", Validators.required),
       'emailOptIn': new FormControl(false)
     });
-
-
   }
 
 
@@ -70,7 +68,6 @@ export class HomepageComponent implements OnInit {
     let currentDate = new Date();
     this.carList = new CarList();
     this.stateList = new StateList();
-
 
     this.eventData = new EventSubmission();
     this.eventData.eventLocation = event.location;
@@ -101,11 +98,9 @@ export class HomepageComponent implements OnInit {
     if (this.eventList.length == 0){
 
     } else if (this.eventList.length == 1){
-      console.log("FIRING SINGLE");
       this.eventSelectedState = true;
       this.loadForm(this.eventList[0]);
     } else {
-      console.log("FIRING MULTI");
       this.eventSelectedState = false;
     }
   }
@@ -213,7 +208,7 @@ export class HomepageComponent implements OnInit {
   fireGetAPI() {
     let promise = new Promise((resolve, reject) => {
 
-      let url = "https://gcr300brvi.execute-api.us-east-1.amazonaws.com/dev/events/get/active";
+      let url = "https://execute-api.us-east-1.amazonaws.com/dev/events/get/active";
       let rawEventListData;
 
       fetch(url, { method: 'GET' })
@@ -243,7 +238,7 @@ export class HomepageComponent implements OnInit {
 
 
   firePostAPI() {
-    fetch('https://wqbjr541sc.execute-api.us-east-1.amazonaws.com/dev/eventusersubmission', {
+    fetch('https://execute-api.us-east-1.amazonaws.com/dev/eventusersubmission', {
       method: 'POST',
       body: JSON.stringify({
         eventLocation: "" + this.eventData.eventLocation,
@@ -270,30 +265,9 @@ export class HomepageComponent implements OnInit {
     })
       .catch(error => console.error('error:', error));
 
-
-
-    // console.log(this.signupForm);
-    //Replace '(' and ')' and '-' in phone number field
     let name: string = this.signupForm.value['firstName'];
     this.submissionMessage = "Thanks for your interest " + name + "!";
     this.completedPopup = true;
-
-    // setTimeout(() => {
-    //   this.myForm.resetForm();
-    //   this.completedPopup = false;
-    //   window.scroll(0, 0);
-    // }, 4500)
   }
-
-  fireDeleteAPI() {
-    let request = new XMLHttpRequest();
-    request.open('POST', 'https://trz1r738ek.execute-api.us-east-1.amazonaws.com/2_1/secondtest');
-    request.onreadystatechange = function (event) {
-      console.log(event.returnValue);
-      console.log(event.target);
-    }
-    request.send();
-  }
-
 
 }

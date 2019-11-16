@@ -11,12 +11,6 @@ import { MatPaginator, MatSort, MatTableDataSource, PageEvent, MatTable } from '
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
-  pass: string = "!mostFor1";
-  password: string = "";
-  user: string = "FormostEvents";
-  userName: string = "";
-  passBlock = true;
-  // passBlock = false; //Keep as false for testing
   userErr = "";
   passErr = "";
   displayLoginError: boolean = false;
@@ -54,35 +48,8 @@ export class AdminComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  login() {
-    let userValid: boolean = false;
-    let passValid: boolean = false;
-    if (this.userName === this.user) {
-      userValid = true;
-      this.userErr = "";
-    } else {
-      userValid = false;
-      this.userErr = "Incorrect UserName"
-    }
-    if (this.password === this.pass) {
-      passValid = true;
-      this.passErr = "";
-    } else {
-      passValid = false;
-      this.passErr = "Incorrect Password";
-    }
-
-    if (userValid == true && passValid == true) {
-      this.passBlock = false;
-    } else {
-      this.displayLoginError = true;
-    }
-  }
-
   modalCancel() {
     this.displayLoginError = false;
-    this.userName = "";
-    this.password = "";
   }
 
   getEventData() {
@@ -95,7 +62,7 @@ export class AdminComponent implements OnInit {
   }
 
   fireGetAPI(eventCode: string) {
-    let url = "https://wqbjr541sc.execute-api.us-east-1.amazonaws.com/dev/eventmultiusersubmission/" + eventCode;
+    let url = "https://execute-api.us-east-1.amazonaws.com/dev/eventmultiusersubmission/" + eventCode;
     let rawData;
     this.eventData = [];
     this.textFileData = [];

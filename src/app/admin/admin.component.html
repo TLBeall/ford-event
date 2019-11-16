@@ -8,39 +8,6 @@
   </div>
 </div>
 
-<!--LOGIN SECTION-->
-<div class="container mat-elevation-z2" *ngIf="passBlock == true">
-  <div class="row">
-    <div class="col-12">
-      <br>
-    </div>
-    <div class="col-md-4 offset-md-2">
-      <mat-form-field class="fullWidth" appearance="outline">
-        <mat-label>UserName *</mat-label>
-        <input matInput type="text" [(ngModel)]="userName" [disabled]="displayLoginError == true">
-      </mat-form-field>
-    </div>
-    <div class="col-md-4">
-      <mat-form-field class="fullWidth" appearance="outline">
-        <mat-label>Password *</mat-label>
-        <input matInput type="text" [(ngModel)]="password" [disabled]="displayLoginError == true">
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-2 offset-md-5">
-      <div class="btnContainer">
-        <div>
-          <button id="submitBtn" mat-flat-button type="button" color="primary" (click)="login()"
-            [disabled]="displayLoginError == true">Login</button>
-        </div>
-        <br>
-        <br>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <!--ERROR MESSAGE-->
@@ -72,7 +39,7 @@
 </div>
 
 
-<div [hidden]="passBlock == true">
+<div>
   <!--ADMIN CONTENT-->
   <div class="container mat-elevation-z2">
     <div class="row">
